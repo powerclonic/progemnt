@@ -1,12 +1,61 @@
-version: "3"
+version: "3.8"
 
 services:
   php:
     build:
       context: "backend"
       dockerfile: "../.docker/php.dockerfile"
+    container_name: progemnt-php
+    depends_on:
+      - db-mongo
+      - db-mysql
+      - db-redis
+    networks:
+      - progemnt-network
+    ports:
+      - "8000:80"
     volumes:
       - "./backend:/var/www/html/"
       - "./.docker/config:/etc/apache2/sites-available/"
-    ports:
-      - "8000:80"
+
+  db-mysql:
+    container_name: progemnt-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: progemnt
+      MYSQL_PASSWORD: progemnt123
+      MYSQL_DATABASE: progemnt-db
+    expose:
+      - 3306
+    image: mysql:8
+    networks:
+      - progemnt-network
+    volumes:
+      - "./db/mysql:/var/lib/mysql"
+
+  db-mongo:
+    container_name: progemnt-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: progemnt123
+      MONGO_INITDB_DATABASE: progemnt-db
+    expose:
+      - 27017
+    image: mongo:7
+    networks:
+      - progemnt-network
+    volumes:
+      - "./db/mongo:/data/db"
+
+  db-redis:
+    container_name: progemnt-redis
+    expose:
+      - 6379
+    image: redis:7
+    networks:
+      - progemnt-network
+    volumes:
+      - "./db/redis:/data"
+
+networks:
+  progemnt-network:
