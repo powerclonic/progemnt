@@ -25,11 +25,11 @@ services:
       MYSQL_USER: progemnt
       MYSQL_PASSWORD: progemnt123
       MYSQL_DATABASE: progemnt-db
-    expose:
-      - 3306
     image: mysql:8
     networks:
       - progemnt-network
+    ports:
+      - "3306:3306"
     volumes:
       - "./db/mysql:/var/lib/mysql"
 
@@ -39,11 +39,11 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: progemnt123
       MONGO_INITDB_DATABASE: progemnt-db
-    expose:
-      - 27017
     image: mongo:7
     networks:
       - progemnt-network
+    ports:
+      - "27017:27017"
     volumes:
       - "./db/mongo:/data/db"
 
