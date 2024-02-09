@@ -20,7 +20,7 @@ class AuthController extends Controller
                 /** @var User $user */
                 $user = User::firstWhere('username', '=', $request->identifier);
 
-                if (!$user) return response("Credenciais inválidas 1", 401);
+                if (!$user) return response("Credenciais inválidas", 401);
             }
         } catch (\Exception $error) {
             Log::error('Erro logout', [$error]);
@@ -34,10 +34,13 @@ class AuthController extends Controller
                 'password' => $request->password
             ], $request->remember);
 
-            if (!$status) return response(isset($user) ? $user->email : $request->identifier, 401);
+            if (!$status) return response("Credenciais inválidas", 401);
         } catch (\Exception $error) {
             return response("Um erro ocorreu durante o processo de login", 500);
         }
+
+        /** @var User $user */
+        $user = Auth::user();
 
         return response()->json([
             'access_token' => $user->createToken('auth_token_' . now()->toISOString())->plainTextToken,
