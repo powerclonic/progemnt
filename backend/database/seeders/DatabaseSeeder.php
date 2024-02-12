@@ -12,11 +12,32 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        $users = \App\Models\User::factory(3)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $users->each(function (\App\Models\User $user) {
+            $projects = \App\Models\Project::factory(5)->create();
+
+            $user->projects()->attach($projects->pluck('id')->toArray(), [
+                'permission' => 4
+            ]);
+        });
+
+        $users->first()
+            ->projects()
+            ->attach([6], [
+                'permission' => 3
+            ]);
+
+        $users->first()
+            ->projects()
+            ->attach([7], [
+                'permission' => 2
+            ]);
+
+        $users->first()
+            ->projects()
+            ->attach([8], [
+                'permission' => 1
+            ]);
     }
 }
