@@ -11,8 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('username');
+        Schema::create('projects', function (Blueprint $table) {
+            $table->id();
+            $table->string('title', 128);
+            $table->longText('description');
+            $table->enum('visibility', [1, 2, 3]);
+            $table->date('deadline');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('projects');
     }
 };
