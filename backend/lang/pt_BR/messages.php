@@ -19,6 +19,7 @@ return [
         'updated' => 'Usuário atualizado',
         'deleted' => 'Usuário deletado',
         'created' => 'Usuário criado',
+        'password_failed' => 'Senha incorreta',
         'update_failed' => 'Erro ao atualizar usuário',
         'delete_failed' => 'Erro ao deletar usuário',
         'create_failed' => 'Erro ao criar usuário',

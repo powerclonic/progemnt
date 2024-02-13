@@ -17,15 +17,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user()->projects()->get();
-});
-
 Route::prefix('/auth')->group(function () {
     Route::post('/', [AuthController::class, 'store']);
     Route::delete('/', [AuthController::class, 'destroy'])->middleware('auth:sanctum');
 });
 
-Route::apiResource('projects', ProjectController::class, ['middleware' => ['auth:sanctum']]);
+Route::prefix('/user')->group(function () {
+    Route::post('/', [UserController::class, 'store']);
 
-Route::resource('/user', UserController::class)->only('store');
+    Route::get('/', [UserController::class, 'show'])->middleware('auth:sanctum');
+    Route::put('/', [UserController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('/', [UserController::class, 'destroy'])->middleware('auth:sanctum');
+});
+
+Route::apiResource('projects', ProjectController::class, ['middleware' => ['auth:sanctum']]);
