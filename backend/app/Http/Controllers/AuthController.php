@@ -21,12 +21,9 @@ class AuthController extends Controller
             /** @var User $user */
             $user = User::where('username', $request->identifier)->orWhere('email', $request->identifier)->first();
 
-            if (!$user || !Hash::check($request->password, $user->password)) return response("Credenciais inválidas", 401);
+            if (!$user || !Hash::check($request->password, $user->password)) return response(__('messages.auth.failed'), 401);
         } catch (\Exception $error) {
-
-            Log::error('Erro logout', [$error]);
-
-            return response("Um erro ocorreu durante o processo de login", 500);
+            return response(__('messages.auth.login_failed'), 500);
         }
 
         return response()->json([
@@ -43,10 +40,9 @@ class AuthController extends Controller
         try {
             $request->user()->currentAccessToken()->delete();
 
-            return response("Sessão encerrada com sucesso", 200);
+            return response(__('messages.auth.logout'), 200);
         } catch (\Exception $error) {
-            Log::error('Erro logout', [$error]);
-            return response("Um erro ocorreu durante o processo de logout", 500);
+            return response(__('messages.auth.logout_failed'), 500);
         }
     }
 }

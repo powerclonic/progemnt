@@ -17,10 +17,9 @@ class UserController extends Controller
         try {
             User::create($request->validated());
 
-            return response("Cadastro concluido com sucesso", 200);
+            return response(__('messages.user.created'), 200);
         } catch (\Exception $error) {
-            Log::error('erro', [$error]);
-            return response("Erro ao concluir o cadastro", 500);
+            return response(__('messages.user.create_failed'), 500);
         }
     }
 
