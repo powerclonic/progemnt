@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,12 +18,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    return $request->user()->projects()->get();
 });
 
 Route::prefix('/auth')->group(function () {
     Route::post('/', [AuthController::class, 'store']);
     Route::delete('/', [AuthController::class, 'destroy'])->middleware('auth:sanctum');
 });
+
+Route::apiResource('projects', ProjectController::class, ['middleware' => ['auth:sanctum']]);
 
 Route::resource('/user', UserController::class)->only('store');
