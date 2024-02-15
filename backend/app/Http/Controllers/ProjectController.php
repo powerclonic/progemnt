@@ -41,9 +41,9 @@ class ProjectController extends Controller
                 ->attach($project, [
                     'permission' => UserPermission::OWNER->value
                 ]);
-            return response(__('messages.project.created'));
+            return response(__('messages.created', ['resource' => 'projeto']));
         } catch (\Exception $error) {
-            return __('messages.project.create_failed');
+            return response(__('messages.create_failed', ['resource' => 'projeto']), 500);
         }
     }
 
@@ -63,9 +63,9 @@ class ProjectController extends Controller
         try {
             $project->update($request->validated());
 
-            return response(__('messages.project.updated'));
+            return response(__('messages.updated', ['resource' => 'projeto']));
         } catch (\Exception $error) {
-            return __('messages.project.update_failed');
+            return response(__('messages.update_failed', ['resource' => 'projeto']), 500);
         }
     }
 
@@ -76,9 +76,9 @@ class ProjectController extends Controller
     {
         try {
             $project->delete();
-            return response(__('messages.project.deleted'));
+            return response(__('messages.deleted', ['resource' => 'projeto']));
         } catch (\Exception $error) {
-            return __('messages.project.delete_failed');
+            return response(__('messages.delete_failed', ['resource' => 'projeto']), 500);
         }
     }
 }

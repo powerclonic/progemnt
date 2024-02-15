@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\DashboardUserResource;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,9 +21,9 @@ class UserController extends Controller
         try {
             User::create($request->validated());
 
-            return response(__('messages.user.created'), 200);
+            return response(__('messages.created', ['resource' => 'usuário']), 200);
         } catch (\Exception $error) {
-            return response(__('messages.user.create_failed'), 500);
+            return response(__('messages.create_failed', ['resource' => 'usuário']), 500);
         }
     }
 
@@ -34,19 +35,27 @@ class UserController extends Controller
         return new UserResource($request->user());
     }
 
+    public function dashboard(Request $request)
+    {
+        return new DashboardUserResource($request->user());
+    }
+
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdateUserRequest $request)
     {
-        if ($request->has('password') && !Hash::check($request->current_password, $request->user()->password)) return response(__('messages.user.password_failed'), 401);
+        if (
+            $request->has('password') &&
+            !Hash::check($request->current_password, $request->user()->password)
+        ) return response(__('messages.password_failed'), 401);
 
         try {
             $request->user()->update($request->validated());
 
-            return response(__('messages.user.updated'), 200);
+            return response(__('messages.updated', ['resource' => 'usuário']), 200);
         } catch (\Exception $error) {
-            return response(__('messages.user.update_failed'), 500);
+            return response(__('messages.update_failed', ['resource' => 'usuário']), 500);
         }
     }
 
@@ -58,9 +67,9 @@ class UserController extends Controller
         try {
             $request->user()->delete();
 
-            return response(__('messages.user.deleted'), 200);
+            return response(__('messages.deleted', ['resource' => 'usuário']), 200);
         } catch (\Exception $error) {
-            return response(__('messages.user.delete_failed'), 500);
+            return response(__('messages.delete_failed', ['resource' => 'usuário']), 500);
         }
     }
 }
