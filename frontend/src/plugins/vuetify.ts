@@ -32,6 +32,7 @@ export default createVuetify({
         defaultTheme: "defaultTheme",
         themes: {
             defaultTheme
-        }
-    }
+        },
+    },
+    
 })
