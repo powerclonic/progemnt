@@ -43,11 +43,23 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'last_opened_projects' => 'array'
     ];
 
     public function projects(): BelongsToMany
     {
         return $this->belongsToMany(Project::class)
             ->withPivot('permission');
+    }
+
+    public function pushOpenedProject(Project $project): void
+    {
+        $projects = $this->last_opened_projects;
+
+        if (count($projects) && $projects[0] === $project->id) return;
+        array_unshift($projects, $project->id);
+
+        $this->last_opened_projects = array_slice($projects, 0, 3);
+        $this->save();
     }
 }
