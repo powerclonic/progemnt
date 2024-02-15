@@ -2,8 +2,9 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,17 +18,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('/auth')->group(function () {
-    Route::post('/', [AuthController::class, 'store']);
-    Route::delete('/', [AuthController::class, 'destroy'])->middleware('auth:sanctum');
+Route::post('/auth', [AuthController::class, 'store']);
+Route::post('/user', [UserController::class, 'store']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::delete('/auth', [AuthController::class, 'destroy']);
+
+    Route::prefix('user')->group(function () {
+        Route::get('/', [UserController::class, 'show']);
+        Route::put('/', [UserController::class, 'update']);
+        Route::delete('/', [UserController::class, 'destroy']);
+        Route::get('/dashboard', [UserController::class, 'dashboard']);
+    });
+
+    Route::prefix('projects')->group(function () {
+        Route::get('/', [ProjectController::class, 'index']);
+        Route::post('/', [ProjectController::class, 'store']);
+        Route::get('/{project}', [ProjectController::class, 'show']);
+        Route::put('/{project}', [ProjectController::class, 'update']);
+        Route::delete('/{project}', [ProjectController::class, 'destroy']);
+    });
+
+    Route::prefix('tasks')->group(function () {
+        Route::get('/', [TaskController::class, 'index']);
+        Route::post('/', [TaskController::class, 'store']);
+        Route::get('/{task}', [TaskController::class, 'show']);
+        Route::put('/{task}', [TaskController::class, 'update']);
+        Route::delete('/{task}', [TaskController::class, 'destroy']);
+    });
 });
-
-Route::prefix('/user')->group(function () {
-    Route::post('/', [UserController::class, 'store']);
-
-    Route::get('/', [UserController::class, 'show'])->middleware('auth:sanctum');
-    Route::put('/', [UserController::class, 'update'])->middleware('auth:sanctum');
-    Route::delete('/', [UserController::class, 'destroy'])->middleware('auth:sanctum');
-});
-
-Route::apiResource('projects', ProjectController::class, ['middleware' => ['auth:sanctum']]);

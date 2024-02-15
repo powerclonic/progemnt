@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Project;
+use App\Models\Task;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -16,6 +19,12 @@ class DatabaseSeeder extends Seeder
 
         $users->each(function (\App\Models\User $user) {
             $projects = \App\Models\Project::factory(5)->create();
+
+            $projects->each(function (Project $project) {
+                Task::factory(10)->create([
+                    'project_id' => $project->id,
+                ]);
+            });
 
             $user->projects()->attach($projects->pluck('id')->toArray(), [
                 'permission' => 4

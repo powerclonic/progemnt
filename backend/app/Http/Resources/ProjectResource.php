@@ -24,7 +24,8 @@ class ProjectResource extends JsonResource
                 ->each(function ($user) {
                     $user->permission = (int) $user->pivot->permission;
                     unset($user->pivot);
-                })
+                }),
+            'tasks' => TaskResource::collection($this->tasks()->get())
         ];
     }
 }
