@@ -22,7 +22,7 @@ const defaultTheme = {
         "secondary-darken-2": "#1B1B1E",
         white: "#FBFBFB",
         warning: "#F5E10F",
-        error: "#F50F23"
+        error: "#FF6060"
     }
 }
 

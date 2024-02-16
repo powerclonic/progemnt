@@ -23,7 +23,7 @@
         block
         flat
         lighter
-        @click="$router.push({name: 'signup'})"
+        @click="$router.push('/signin')"
       >
         quero me cadastrar
       </the-button>

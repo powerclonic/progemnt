@@ -19,15 +19,15 @@
       >
         <the-button
           size="small"
-          @click="$router.push({name: 'signin'})"
+          @click="$router.push('/signin')"
         >
-          login
+          entrar
         </the-button>
         <the-button
           class="ms-2"
           size="small"
           colorful
-          @click="$router.push({name: 'signup'})"
+          @click="$router.push('/signup')"
         >
           cadastro
         </the-button>
