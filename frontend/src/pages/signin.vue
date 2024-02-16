@@ -11,6 +11,7 @@
         <p class="mb-2">
           Para continuar, informe suas credenciais
         </p>
+        <error-message />
         <v-text-field
           v-model="identifier"
           label="e-mail ou nome de usuário"
@@ -36,8 +37,8 @@
           flat
           block
           type="submit"
-          :disabled="!form || loading"
-          :loading="loading"
+          :disabled="!form || store.loading"
+          :loading="store.loading"
         >
           entrar
         </the-button>
@@ -49,6 +50,9 @@
 <script setup lang="ts">
 import { signIn } from "@/api/auth";
 import { ref } from "vue";
+import {useAppStore} from "@/store/app";
+
+const store = useAppStore();
 
 const loading = ref(false);
 
@@ -63,16 +67,10 @@ const rules = {
 
 const sendForm = async () => {
     try {
-        loading.value = true;
         const res = await signIn(identifier.value, password.value, false);
-        
-        console.log(res.data);
-
-        // TODO: salvar o access_token no localstorage e na store
+        store.setAuthData(res.data);
     } catch (error) {
-        console.log(error);
-    } finally {
-        loading.value = false;
+        //
     }
 }
 </script>
