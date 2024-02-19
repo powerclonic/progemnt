@@ -17,6 +17,10 @@ export const userData = () => {
   return ax.get("/user");
 };
 
+export const userDashboardData = () => {
+  return ax.get("/user/dashboard");
+};
+
 export const userDestroy = () => {
   return ax.delete("/user");
 };
