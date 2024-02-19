@@ -11,7 +11,7 @@
         <p class="mb-2">
           Para continuar, informe suas credenciais
         </p>
-        <error-message />
+        <flash-message />
         <v-text-field
           v-model="identifier"
           label="e-mail ou nome de usuário"
@@ -48,13 +48,11 @@
 </template>
 
 <script setup lang="ts">
-import { signIn } from "@/api/auth";
+import { signIn } from "@/api";
 import { ref } from "vue";
 import {useAppStore} from "@/store/app";
 
 const store = useAppStore();
-
-const loading = ref(false);
 
 const form = ref(false);
 const identifier = ref('');
