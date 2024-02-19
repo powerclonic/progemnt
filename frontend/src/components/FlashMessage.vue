@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { useFlashStore } from '@/store/flash';
+import { useFlashStore } from "@/store/flash";
 
 const store = useFlashStore();
 </script>

@@ -14,7 +14,7 @@
     </template>
     <template #append>
       <div
-        v-if="true"
+        v-if="! store.isAuthenticated"
         class="app-bar__buttons"
       >
         <the-button
@@ -36,7 +36,15 @@
         v-else
         class="app-bar__buttons"
       >
-        <div>todo</div>
+        <the-button
+          class="ms-2"
+          size="small"
+          colorful
+          append-icon="mdi-account-circle"
+          @click="$router.push('/account')"
+        >
+          olá, {{ store.user_name }}
+        </the-button>
       </div>
     </template>
     <template #extension>
@@ -46,7 +54,9 @@
 </template>
 
 <script lang="ts" setup>
-  //
+import { useAppStore } from "@/store/app";
+
+const store = useAppStore();
 </script>
 
 <style scoped lang="scss">

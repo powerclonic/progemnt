@@ -88,11 +88,11 @@ const router = useRouter();
 const flashStore = useFlashStore();
 
 const form = ref(false);
-const name = ref('');
-const email = ref('');
-const password = ref('');
-const username = ref('');
-const confirmPassword = ref('');
+const name = ref("");
+const email = ref("");
+const password = ref("");
+const username = ref("");
+const confirmPassword = ref("");
 
 const nameRegExp = /^[a-zA-Z\u00C0-\u00FF]+(?:\s+[a-zA-Z\u00C0-\u00FF]+)*$/;
 const emailRegExp = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
@@ -104,20 +104,20 @@ const rules = {
   maxLength: (value: any) => value.length <= 512 || "Número máximo de caracteres atingido",
 
   usernameFormat: (value: any) => !!usernameRegExp.exec(value) || "O nome de usuário eve conter apenas letras, números e underscores",
-  usernameLength: (value: any) => requiredLength(value, 3, 16, 'nome de usuário'),
+  usernameLength: (value: any) => requiredLength(value, 3, 16, "nome de usuário"),
 
   nameFormat: (value: any) => !!nameRegExp.exec(value) || "O nome deve conter apenas letras e não pode começar nem terminar com espaços",
-  nameLength: (value: any) => requiredLength(value, 3, 128, 'nome'),
+  nameLength: (value: any) => requiredLength(value, 3, 128, "nome"),
 
   emailFormat: (value: any) => !!emailRegExp.exec(value) || "Formato de e-mail inválido",
 
   passwordFormat: (value: any) => !!passwordRegexp.exec(value) || "A senha deve ter no mínimo 8 caracteres e conter letras maiúsculas e minúsculas, números e caracteres especiais.",
 
   equal: (value: any) => value === password.value || "As senhas não são iguais",
-}
+};
 
 const requiredLength = (value: string, min: number, max: number, field: string) =>
-  (value.length >= min && value.length <= max) || `O ${field} deve ter no mínimo ${min} e no máximo ${max} caracteres`
+  (value.length >= min && value.length <= max) || `O ${field} deve ter no mínimo ${min} e no máximo ${max} caracteres`;
 
 const sendForm = async () => {
   try {
@@ -128,13 +128,13 @@ const sendForm = async () => {
       password: password.value,
     });
 
-    flashStore.setMessage('Cadastro concluído, você já pode iniciar sua sessão.', 'success');
+    flashStore.setMessage("Cadastro concluído, você já pode iniciar sua sessão.", "success");
 
-    router.push('/signin');
+    router.push("/signin");
   } catch (error) {
     //
   }
-}
+};
 </script>
 
 <style scoped lang="scss">

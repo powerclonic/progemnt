@@ -1,10 +1,10 @@
 // Utilities
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
-export const useFlashStore = defineStore('flash', {
+export const useFlashStore = defineStore("flash", {
   state: () => ({
-    flash_message: '' as string,
-    flash_type: null as null | 'success' | 'error' | 'warning',
+    flash_message: "" as string,
+    flash_type: null as null | "success" | "error" | "warning",
     timeout: undefined as NodeJS.Timeout | undefined
   }),
   actions: {
@@ -14,7 +14,7 @@ export const useFlashStore = defineStore('flash', {
 
       clearTimeout(this.timeout);
 
-      this.timeout = setTimeout(() => { this.flash_message = ''; this.flash_type = null }, 10 * 1000);
+      this.timeout = setTimeout(() => { this.flash_message = ""; this.flash_type = null; }, 10 * 1000);
     }
   }
-})
+});

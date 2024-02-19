@@ -51,26 +51,30 @@
 import { signIn } from "@/api";
 import { ref } from "vue";
 import {useAppStore} from "@/store/app";
+import { useRouter } from "vue-router";
 
 const store = useAppStore();
+const router = useRouter();
 
 const form = ref(false);
-const identifier = ref('');
-const password = ref('');
+const identifier = ref("");
+const password = ref("");
 
 const rules = {
-    required: (value: any) => !!value || "Obrigatório",
-    maxLength: (value: any) => value.length > 512 || "Número máximo de caracteres atingido"
-}
+  required: (value: any) => !!value || "Obrigatório",
+  maxLength: (value: any) => value.length > 512 || "Número máximo de caracteres atingido"
+};
 
 const sendForm = async () => {
-    try {
-        const res = await signIn(identifier.value, password.value, false);
-        store.setAuthData(res.data);
-    } catch (error) {
-        //
-    }
-}
+  try {
+    const res = await signIn(identifier.value, password.value, false);
+    store.setAuthData(res.data);
+
+    router.push("/account");
+  } catch (error) {
+    //
+  }
+};
 </script>
 
 <style scoped lang="scss">

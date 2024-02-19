@@ -12,17 +12,17 @@
 
 <script setup lang="ts">
 defineProps({
-    colorful: {
-        type: Boolean,
-        required: false,
-        default: false
-    },
-    lighter: {
-        type: Boolean,
-        required: false,
-        default: false
-    }
-})
+  colorful: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
+  lighter: {
+    type: Boolean,
+    required: false,
+    default: false
+  }
+});
 </script>
 
 <style scoped lang="scss">
