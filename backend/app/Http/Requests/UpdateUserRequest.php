@@ -31,6 +31,7 @@ class UpdateUserRequest extends FormRequest
     public function attributes()
     {
         return [
+            "password" => "nova senha",
             "current_password" => "senha atual"
         ];
     }

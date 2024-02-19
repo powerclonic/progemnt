@@ -1,14 +1,27 @@
-import { SignUpData } from "@/types";
-import axiosInstance from "./axios";
+import { SignUpData, UpdateUserData } from "@/types";
+import ax from "./axios";
 
 export const signIn = (identifier: string, password: string, remember: boolean) => {
-  return axiosInstance.post("/auth", {identifier, password, remember});
+  return ax.post("/auth", {identifier, password, remember});
+};
+
+export const signOut = () => {
+  return ax.delete("/auth");
 };
 
 export const signUp = (data: SignUpData) => {
-  return axiosInstance.post("/user", data);
+  return ax.post("/user", data);
 };
 
 export const userData = () => {
-  return axiosInstance.get("/user");
+  return ax.get("/user");
 };
+
+export const userDestroy = () => {
+  return ax.delete("/user");
+};
+
+export const userUpdate = (data: UpdateUserData) => {
+  return ax.put("/user", data);
+};
+

@@ -8,7 +8,9 @@ export const useAppStore = defineStore("app", {
     access_token: localStorage.getItem("access_token") ?? ""
   }),
   getters: {
-    isAuthenticated: () => !!localStorage.getItem("access_token")
+    isAuthenticated(): boolean {
+      return !!this.access_token;
+    }
   },
   actions: {
     setAuthData(data: any) {
