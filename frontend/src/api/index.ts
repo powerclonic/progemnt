@@ -29,3 +29,6 @@ export const userUpdate = (data: UpdateUserData) => {
   return ax.put("/user", data);
 };
 
+export const userProjects = () => {
+  return ax.get("/projects");
+};
