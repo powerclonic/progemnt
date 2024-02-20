@@ -48,7 +48,7 @@ axiosInstance.interceptors.response.use(
 
     switch (error.request.status) {
     case 401: {
-      if (data && data.message === "Unauthenticated") {
+      if (data && data.message === "Unauthenticated.") {
         useAppStore().unsetAuthData();
         useFlashStore().setMessage("Sua sessão expirou, entre novamente.", "warning");
         router.push("/signin");

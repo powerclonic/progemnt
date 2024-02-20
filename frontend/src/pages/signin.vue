@@ -51,7 +51,7 @@
 import { signIn } from "@/api";
 import { ref } from "vue";
 import {useAppStore} from "@/store/app";
-import { useRouter } from "vue-router";
+import { useRouter } from "vue-router/auto";
 
 const store = useAppStore();
 const router = useRouter();

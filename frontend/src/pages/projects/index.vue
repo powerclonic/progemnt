@@ -1,14 +1,14 @@
 <template>
-  <h2 class="text-center">
-    Projetos
-  </h2>
   <v-container>
+    <h2 class="text-center my-2">
+      Projetos
+    </h2>
     <card-wrapper class="filter">
       <h2>Filtrar por:</h2>
       <v-chip-group
         v-model="filterSelect"
         selected-class="bg-primary"
-        column  
+        column
       >
         <v-chip
           prepend-icon="mdi-web"
@@ -37,47 +37,65 @@
       </v-chip-group>
     </card-wrapper>
     <div
-      v-if="true"
+      v-if="projects"
       class="projects"
     >
       <card-wrapper
-        v-for="project, index in projects"
+        v-for="(project, index) in projects"
         :key="index"
         class="projects__card"
       >
-        <h2>{{ project.title }}</h2>
-        <p class="card__owner">
-          de {{ project.users[0].name }}
-        </p>
-        <p class="card__description">
-          {{ project.description }}
-        </p>
-        <div>
-          <v-chip
-            size="small"
-            prepend-icon="mdi-list-status"
-            class="me-1"
-          >
-            0/0
-          </v-chip>
-          <v-chip
-            class="me-1"
-            size="small"
-            prepend-icon="mdi-calendar"
-          >
-            {{ new Date(project.deadline).toLocaleDateString('pt-br') }}
-          </v-chip>
-          <v-chip
-            size="small"
-            prepend-icon="mdi-account-multiple"
-          >
-            {{ project.users.length }} {{ project.users.length > 1 ? 'membros' : 'membro' }}
-          </v-chip>
-        </div>
+        <button
+          class="card__container"
+          @click="$router.push(`/projects/${project.id}}`)"
+        >
+          <h2 class="card__title">
+            {{ project.title }}
+          </h2>
+          <p class="card__owner">
+            de {{ project.users[0].name }}
+          </p>
+          <p class="card__description">
+            {{ project.description }}
+          </p>
+          <div>
+            <v-chip
+              size="small"
+              prepend-icon="mdi-list-status"
+              class="me-1"
+            >
+              0/0
+            </v-chip>
+            <v-chip
+              class="me-1"
+              size="small"
+              prepend-icon="mdi-calendar"
+            >
+              {{ new Date(project.deadline).toLocaleDateString("pt-br") }}
+            </v-chip>
+            <v-chip
+              size="small"
+              prepend-icon="mdi-account-multiple"
+            >
+              {{ project.users.length }}
+              {{ project.users.length > 1 ? "membros" : "membro" }}
+            </v-chip>
+          </div>
+        </button>
       </card-wrapper>
-      <div class="empty-msg">
-        não há mais nada aqui...
-      </div>
+      <button @click="$router.push('/projects/new')">
+        <v-icon
+          icon="mdi-plus"
+          color="primary"
+        /> Novo projeto
+      </button>
+    </div>
+    <div
+      v-else-if="store.loading || true"
+      class="skeleton"
+    >
+      <v-skeleton-loader type="image" />
+      <v-skeleton-loader type="image" />
     </div>
     <div
       v-else
@@ -90,14 +108,24 @@
 
 <script setup lang="ts">
 import { userProjects } from "@/api";
+import { useAppStore } from "@/store/app";
 import { onMounted } from "vue";
 import { computed } from "vue";
 import { ref } from "vue";
 import { Ref } from "vue";
+import { definePage } from "vue-router/auto";
 
-const filterSelect: Ref<"all"|"user"|"shared"|"favs"> = ref("all");
+definePage({
+  meta: {
+    requireAuth: true,
+  },
+});
 
-const projects = ref({});
+const store = useAppStore();
+
+const filterSelect: Ref<"all" | "user" | "shared" | "favs"> = ref("all");
+
+const projects = ref(null);
 const filteredProjects = computed(() => "oi");
 
 const getData = async () => {
@@ -107,7 +135,6 @@ const getData = async () => {
     projects.value = res.data.data;
 
     console.log(projects.value);
-    
   } catch (error) {
     //
   }
@@ -116,7 +143,6 @@ const getData = async () => {
 onMounted(() => {
   getData();
 });
-
 </script>
 
 <style scoped lang="scss">
@@ -132,20 +158,42 @@ onMounted(() => {
   }
 }
 
-.projects { 
+.projects {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(1, minmax(0, 1fr));
   grid-template-rows: auto;
   gap: 10px;
 
   margin-top: 20px;
+}
 
-  &__card {
-    padding: 10px;
-  }
+.skeleton {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 20px 0;
 }
 
 .card {
+  &__container {
+    width: 100%;
+    text-align: left;
+    padding: 10px;
+
+    &:focus {
+      transition: background 0.5s;
+      outline: 0;
+      background-color: rgba(var(--v-theme-secondary), 25%);
+      border-radius: 10px;
+    }
+  }
+
+  &__title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
   &__owner {
     font-size: 0.8rem;
     color: rgb(var(--v-theme-secondary));
@@ -154,7 +202,10 @@ onMounted(() => {
 
   &__description {
     margin: 5px 0;
-    text-wrap: nowrap;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
   }
 }
 
@@ -162,13 +213,13 @@ onMounted(() => {
   color: rgb(var(--v-theme-secondary));
   text-align: center;
   font-weight: bold;
-  
+
   padding: 1rem 0;
 }
 
 @media screen and (min-width: 600px) {
   .projects {
-      grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 </style>

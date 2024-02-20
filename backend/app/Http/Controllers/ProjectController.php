@@ -41,7 +41,11 @@ class ProjectController extends Controller
                 ->attach($project, [
                     'permission' => UserPermission::OWNER->value
                 ]);
-            return response(__('messages.created', ['resource' => 'projeto']));
+
+            return response()->json([
+                'message' => __('messages.created', ['resource' => 'projeto']),
+                'id' => $project->id
+            ]);
         } catch (\Exception $error) {
             return response(__('messages.create_failed', ['resource' => 'projeto']), 500);
         }

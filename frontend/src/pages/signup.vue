@@ -80,7 +80,7 @@
 import { ref } from "vue";
 import { useAppStore } from "@/store/app";
 import { signUp } from "@/api";
-import { useRouter } from "vue-router";
+import { useRouter } from "vue-router/auto";
 import { useFlashStore } from "@/store/flash";
 
 const store = useAppStore();

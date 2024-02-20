@@ -32,3 +32,19 @@ export const userUpdate = (data: UpdateUserData) => {
 export const userProjects = () => {
   return ax.get("/projects");
 };
+
+export const showProject = (project: number) => {
+  return ax.get(`/projects/${project}`);
+};
+
+export const createProject = (data: any) => {
+  return ax.post("/projects", data);
+};
+
+export const updateProject = (project: number, data: any) => {
+  return ax.put(`/projects/${project}`, data);
+};
+
+export const deleteProject = (project: number) => {
+  return ax.delete(`/projects/${project}`);
+};
