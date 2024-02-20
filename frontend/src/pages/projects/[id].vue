@@ -81,7 +81,7 @@
         size="small"
         prepend-icon="mdi-clock-alert"
       >
-        {{ format(new Date(project.deadline), "dd/mm/yyyy") }}
+        {{ format(new Date(project.deadline), "dd/MM/yyyy") }}
       </v-chip>
       <v-chip
         size="small"
@@ -120,12 +120,13 @@
 
 <script setup lang="ts">
 import { showProject } from "@/api";
-import { onMounted } from "vue";
+import { Ref, onMounted } from "vue";
 import { ref } from "vue";
 import { useRoute } from "vue-router/auto";
 
 import { formatDistance, format } from "date-fns";
 import { ptBR } from "date-fns/locale/pt-BR";
+import { Project } from "@/types";
 
 const getRelative = (date: string) => {
   const today = new Date();
@@ -136,10 +137,11 @@ const getRelative = (date: string) => {
 
 const route = useRoute();
 
-const project = ref(null);
+const project: Ref<Project|null> = ref(null);
 
 const getData = async () => { 
   try {
+    // @ts-expect-error
     const res = await showProject(route.params.id);
 
     project.value = res.data.data;
