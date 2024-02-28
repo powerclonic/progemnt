@@ -1,17 +1,21 @@
 <template>
   <v-btn
     class="the-button"
+    :color="color"
     :class="{
-      'the-button--colorful': colorful,
-      'the-button--lighter': lighter,
+      'text-secondary-darken-1': colorful,
+      'text-primary': lighter || true
     }"
+    variant="flat"
   >
     <slot />
   </v-btn>
 </template>
 
 <script setup lang="ts">
-defineProps({
+import { computed } from "vue";
+
+const props = defineProps({
   colorful: {
     type: Boolean,
     required: false,
@@ -23,17 +27,21 @@ defineProps({
     default: false
   }
 });
+
+const color = computed(() => {
+  if (props.colorful) return "primary";
+  if (props.lighter) return "secondary-darken-1";
+  return "secondary-darken-2";
+});
 </script>
 
 <style scoped lang="scss">
 .the-button {
-    background-color: rgb(var(--v-theme-secondary-darken-2));
     color: rgb(var(--v-theme-primary));
 
     font-weight: bold;
 
     &--colorful {
-        background-color: rgb(var(--v-theme-primary));
         color: rgb(var(--v-theme-secondary-darken-2));
     }
 

@@ -158,13 +158,27 @@
         >
           <div class="task-card__title">
             <h3>{{ task.title }}</h3>
-            <task-details>
+            <p :id="'task_dialog_' + index">
               acessar >
-            </task-details>
+            </p>
+            <task-details
+              :activator="'#task_dialog_' + index"
+              :task="task"
+              :members="project.users"
+            />
           </div>
           <div class="task-card__footer">
-            <p class="task-card__responsible">
+            <p
+              v-if="task.respnsible"
+              class="task-card__responsible"
+            >
               <v-icon icon="mdi-account" /> {{ task.responsible.name }}
+            </p>
+            <p
+              v-else
+              class="task-card__responsible"
+            >
+              <v-icon icon="mdi-account-cancel" /> Sem responsável
             </p>
             <v-chip
               class="task-card__status"
@@ -214,7 +228,6 @@ import { ptBR } from "date-fns/locale/pt-BR";
 import { Project } from "@/types";
 import { useAppStore } from "@/store/app";
 import { useFlashStore } from "@/store/flash";
-import { watch } from "vue";
 
 const getRelative = (date: string) => {
   const today = new Date();
@@ -423,6 +436,7 @@ onMounted(() => {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-right: 8px;
   }
 
   &__status {
