@@ -16,8 +16,7 @@ class DashboardUserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        /** @var \Illuminate\Database\Eloquent\Collection<\App\Models\Project> $projects */
-        $projects = $this->projects()->get();
+        $projects = $this->projects();
 
         return [
             'last_opened' => array_filter(
@@ -27,11 +26,11 @@ class DashboardUserResource extends JsonResource
                 ),
                 fn ($val) => !is_null($val->resource)
             ),
-            'last_updated' => $projects->sortBy('updated_at')->slice(0, 3),
+            'last_updated' => $projects->latest('updated_at')->get()->slice(0, 3),
             'stats' => [
-                'total' => $projects->count(),
-                'finished' => $projects->filter(fn ($project) => $project->status === ProjectStatus::FINISHED->value)->count(),
-                'in_progress' => $projects->filter(fn ($project) => $project->status === ProjectStatus::IN_PROGRESS->value)->count(),
+                'total' => $projects->get()->count(),
+                'finished' => $projects->get()->filter(fn ($project) => $project->status === ProjectStatus::FINISHED->value)->count(),
+                'in_progress' => $projects->get()->filter(fn ($project) => $project->status === ProjectStatus::IN_PROGRESS->value)->count(),
             ]
         ];
     }

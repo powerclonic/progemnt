@@ -48,3 +48,7 @@ export const updateProject = (project: number, data: any) => {
 export const deleteProject = (project: number) => {
   return ax.delete(`/projects/${project}`);
 };
+
+export const createTask = (project: number, data: any) => {
+  return ax.post("/tasks", { project_id: project, ...data });
+};

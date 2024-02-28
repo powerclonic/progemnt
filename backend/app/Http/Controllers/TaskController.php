@@ -27,6 +27,9 @@ class TaskController extends Controller
         try {
             $project = Project::find($request->project_id);
             $project->tasks()->create($request->validated());
+            $project->touch();
+
+            info(now()->toIso8601String());
 
             return response(__('messages.created', ['resource' => 'tarefa']));
         } catch (\Exception $error) {

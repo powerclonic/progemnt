@@ -19,7 +19,7 @@
               <p>
                 {{ project.title }}
               </p>
-              <router-link :to="'/'">
+              <router-link :to="`/projects/${project.id}`">
                 acessar >
               </router-link>
             </div>
@@ -76,7 +76,10 @@
           </v-btn>
         </div>
       </card-wrapper>
-      <button class="app-body__button">
+      <button
+        class="app-body__button"
+        @click="$router.push('/projects/new')"
+      >
         <v-icon
           icon="mdi-plus"
           color="primary"
@@ -97,7 +100,7 @@
               <p>
                 {{ project.title }}
               </p>
-              <router-link :to="'/'">
+              <router-link :to="`/projects/${project.id}`">
                 acessar >
               </router-link>
             </div>
@@ -189,9 +192,7 @@ onMounted(() => {
     border-radius: 10px;
     padding: 10px;
 
-    & * {
-      min-width: fit-content;
-    }
+    overflow: hidden;
   }
 }
 
@@ -203,6 +204,10 @@ onMounted(() => {
     justify-content: space-between;
 
     & > p {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+
       font-weight: 500;
       font-size: 1.25rem;
     }
@@ -212,6 +217,8 @@ onMounted(() => {
       color: rgb(var(--v-theme-secondary));      
       font-size: 0.9rem;
       align-items: center;
+      min-width: fit-content;
+      margin-left: 5px;
     }
   }
 

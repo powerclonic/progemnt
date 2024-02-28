@@ -4,13 +4,16 @@
     flat
   >
     <template #prepend>
-      <div class="title">
+      <router-link
+        :to="store.isAuthenticated ? '/dashboard' : '/'"
+        class="title"
+      >
         <progemnt-logo class="title__image" />
           
         <p class="title__text">
           progemnt
         </p>
-      </div>
+      </router-link> 
     </template>
     <template #append>
       <div
@@ -37,13 +40,19 @@
         class="app-bar__buttons"
       >
         <the-button
+          size="small"
+          @click="$router.push('/dashboard')"
+        >
+          dashboard 
+        </the-button>
+        <the-button
           class="ms-2"
           size="small"
           colorful
           append-icon="mdi-account-circle"
           @click="$router.push('/account')"
         >
-          olá, {{ store.user_name }}
+          olá, {{ store.user_name.split(' ')[0] }}
         </the-button>
       </div>
     </template>
@@ -65,6 +74,8 @@ const store = useAppStore();
     gap: 8px;
     display: flex;
     align-items: center;
+    text-decoration: none;
+    color: #fff;
 
     &__image {
         height: 48px;
