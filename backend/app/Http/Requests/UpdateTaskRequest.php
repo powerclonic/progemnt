@@ -23,9 +23,10 @@ class UpdateTaskRequest extends FormRequest
     {
         return [
             'title'       => ['string', 'max:128'],
-            'description' => ['string', 'max:4096'],
-            'responsible' => ['exists:users,id'],
-            'deadline'    => ['date', 'after_or_equal:today']
+            'description' => ['nullable', 'string', 'max:4096'],
+            'responsible' => ['nullable', 'exists:users,id'],
+            'deadline'    => ['nullable', 'date', 'after_or_equal:today'],
+            'status'      => ['in:1,2,3,4']
         ];
     }
 }

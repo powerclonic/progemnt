@@ -38,7 +38,7 @@ class TaskResource extends JsonResource
             'name' => $user->name
         ];
 
-        Cache::put("user_{$id}_responsible_data", $data);
+        Cache::put("user_{$id}_responsible_data", $data, now()->addDay());
 
         return $data;
     }

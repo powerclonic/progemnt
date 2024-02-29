@@ -53,8 +53,9 @@ class TaskController extends Controller
     public function update(UpdateTaskRequest $request, Task $task)
     {
         try {
-            $task->update($request->validated());
+            info($task->update($request->validated()));
 
+            info('q', $request->validated());
             return response(__('messages.updated', ['resource' => 'tarefa']));
         } catch (\Exception $error) {
             return response(__('messages.updated', ['resource' => 'tarefa']));

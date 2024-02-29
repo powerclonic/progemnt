@@ -52,3 +52,11 @@ export const deleteProject = (project: number) => {
 export const createTask = (project: number, data: any) => {
   return ax.post("/tasks", { project_id: project, ...data });
 };
+
+export const updateTask = (task: number, data: any) => {
+  return ax.put(`/tasks/${task}`, data );
+};
+
+export const deleteTask = (task: number) => {
+  return ax.delete(`/tasks/${task}`);
+};

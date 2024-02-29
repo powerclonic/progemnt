@@ -93,7 +93,6 @@
         encerrar sessão
       </the-button>
       <the-button
-        flat
         block
         class="action-btn"
         disabled

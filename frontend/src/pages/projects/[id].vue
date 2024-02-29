@@ -9,21 +9,21 @@
       </h2>
       <v-form @submit.prevent="sendTaskForm">
         <v-text-field
-          v-model="taskTitle"
+          v-model="taskModel.title"
           label="Título"
           variant="solo-filled"
           bg-color="secondary-darken-1"
           rounded="lg"
         />
         <v-text-field
-          v-model="taskDescription"
+          v-model="taskModel.description"
           variant="solo-filled"
           bg-color="secondary-darken-1"
           label="Descrição"
           rounded="lg"
         />
         <v-text-field
-          v-model="taskDeadline"
+          v-model="taskModel.deadline"
           label="Prazo"
           variant="solo-filled"
           bg-color="secondary-darken-1"
@@ -31,7 +31,7 @@
           rounded="lg"
         />
         <v-text-field
-          v-model="taskResponsible"
+          v-model="taskModel.responsible"
           variant="solo-filled"
           bg-color="secondary-darken-1"
           label="Responsável"
@@ -165,11 +165,13 @@
               :activator="'#task_dialog_' + index"
               :task="task"
               :members="project.users"
+              @update="(t: Ref<any>) => updateTask(t, index)"
+              @delete="() => deleteTask(index)"
             />
           </div>
           <div class="task-card__footer">
             <p
-              v-if="task.respnsible"
+              v-if="task.responsible"
               class="task-card__responsible"
             >
               <v-icon icon="mdi-account" /> {{ task.responsible.name }}
@@ -182,7 +184,6 @@
             </p>
             <v-chip
               class="task-card__status"
-              prepend-icon="mdi-alert-circle"
               v-bind="getStatusConfig(task.status)"
             />
           </div>
@@ -243,36 +244,52 @@ const project: Ref<Project|null> = ref(null);
 const newTaskDialog: Ref<boolean> = ref(false);
 
 //* Task v-models
-const taskTitle: Ref<string>            = ref("");
-const taskDeadline: Ref<string|null>    = ref(null);
-const taskResponsible: Ref<number|null> = ref(null);
-const taskDescription: Ref<string|null> = ref(null);
+const taskModel = ref({
+  title: "", 
+  deadline: null, 
+  responsible: null, 
+  description: null, 
+});
 
 const getStatusConfig = (status: number) => {
-  console.log(status);
-  
   switch (status) {
   case 1: 
     return {
       text: "Não iniciada",
-      color: "error"
+      color: "error",
+      prependIcon: "mdi-alert-circle"
     };
   case 2: 
     return {
       text: "Em andamento",
-      color: "info"
+      color: "info",
+      prependIcon: "mdi-clock"
     };
   case 3: 
     return {
       text: "Em espera",
-      color: "warning"
+      color: "warning",
+      prependIcon: "mdi-alert-octagon"
     };
   case 4: 
     return {
       text: "Concluída",
-      color: "success"
+      color: "success",
+      prependIcon: "mdi-check-circle"
     };
   }
+};
+
+const updateTask = (t: Ref<any>, i: number) => {
+  if (! project.value) return;
+
+  project.value.tasks[i] = Object.assign(project.value.tasks[i], t.value);
+
+  project.value.tasks[i].responsible = project.value.users.find((u: any) => u.id = t.value.responsible);
+};
+
+const deleteTask = (i: number) => {
+  project.value?.tasks.splice(i, 1);
 };
 
 const getData = async () => { 
@@ -288,12 +305,14 @@ const getData = async () => {
 
 const sendTaskForm = async () => {
   try {
-    await createTask(project.value?.id, {
-      title: taskTitle.value,
-      deadline: taskDeadline.value,
-      description: taskDescription.value,
-      responsible: taskResponsible.value,
-    });
+    await createTask(project.value?.id, taskModel.value);
+
+    taskModel.value = {
+      title: "", 
+      deadline: null, 
+      responsible: null, 
+      description: null,  
+    };
 
     newTaskDialog.value = false;
     useFlashStore().setMessage("Tarefa adicionada", "success");
@@ -395,12 +414,10 @@ onMounted(() => {
   }
 
   &__container {
-
     display: flex;
     flex-direction: column;
     gap: 10px;
-    overflow-y: scroll;
-    max-height: 100%;
+    border-radius: 10px;
   }
 }
 
@@ -488,8 +505,26 @@ onMounted(() => {
     }
   }
 
+  .details {
+    &__chips {
+        max-width: 100%;
+        max-height: 4.5rem;
+        overflow: hidden scroll;
+        height: 100%;
+    }
+  }
+
   .tasks {
     grid-area: 2 / 2 / 5 / 3; 
+
+    &__title {
+        height: 15%;
+    }
+
+    &__container {
+        overflow-y: scroll;
+    height: calc(85% - 10px);
+    }
   }
 }
 </style>
