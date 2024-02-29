@@ -30,12 +30,13 @@
           type="date"
           rounded="lg"
         />
-        <v-text-field
+        <v-select
           v-model="taskModel.responsible"
           variant="solo-filled"
           bg-color="secondary-darken-1"
           label="Responsável"
           rounded="lg"
+          :items="taskResponsibles"
         />
         <flash-message />
         <the-button
@@ -229,6 +230,7 @@ import { ptBR } from "date-fns/locale/pt-BR";
 import { Project } from "@/types";
 import { useAppStore } from "@/store/app";
 import { useFlashStore } from "@/store/flash";
+import { computed } from "vue";
 
 const getRelative = (date: string) => {
   const today = new Date();
@@ -249,6 +251,23 @@ const taskModel = ref({
   deadline: null, 
   responsible: null, 
   description: null, 
+});
+
+const taskResponsibles = computed(() => {
+  if (!project.value) return;
+
+  return [
+    ...project.value.users.map((val: any) => {
+      return { 
+        title: val.name,
+        value: val.id
+      };
+    }),
+    {
+      title: "Ninguém",
+      value: null
+    }
+  ];
 });
 
 const getStatusConfig = (status: number) => {

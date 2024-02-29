@@ -62,6 +62,8 @@
             <the-button
               colorful
               type="submit"
+              :loading="store.loading"
+              :disabled="store.loading"
             >
               ATUALIZAR
             </the-button>
@@ -75,6 +77,7 @@
                   icon="mdi-trash-can"
                   class="text-primary"
                   variant="text"
+                  :disabled="store.loading"
                 />
               </template>
               <template #default="{ isActive }">
