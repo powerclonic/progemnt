@@ -354,7 +354,7 @@ onMounted(() => {
   grid-template-rows: auto;
   gap: 10px;
 
-  max-height: 100%;
+  height: 100%;
 }
 
 .title {
@@ -524,12 +524,16 @@ onMounted(() => {
     }
   }
 
-  .details {
-    &__chips {
+  .details, .description {
+    & > h3 {
+        height: 2rem;
+    }
+
+    &__chips, &__text {
         max-width: 100%;
-        max-height: 4.5rem;
         overflow: hidden scroll;
-        height: 100%;
+        height: calc(100% - 2rem - 10px);
+        max-height: unset;
     }
   }
 
@@ -537,12 +541,12 @@ onMounted(() => {
     grid-area: 2 / 2 / 5 / 3; 
 
     &__title {
-        height: 15%;
+        height: 50px;
     }
 
     &__container {
         overflow-y: scroll;
-    height: calc(85% - 10px);
+    height: calc(100% - 60px);
     }
   }
 }
