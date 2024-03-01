@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectMemberController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -37,6 +38,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{project}', [ProjectController::class, 'show']);
         Route::put('/{project}', [ProjectController::class, 'update']);
         Route::delete('/{project}', [ProjectController::class, 'destroy']);
+
+        Route::post('/{project}/members', [ProjectMemberController::class, 'store']);
+        Route::put('/{project}/members', [ProjectMemberController::class, 'update']);
+        Route::delete('/{project}/members', [ProjectMemberController::class, 'destroy']);
     });
 
     Route::prefix('tasks')->group(function () {

@@ -67,15 +67,20 @@
     <card-wrapper class="configs">
       <h3>Configurações do projeto</h3>
       <div class="configs__buttons">
-        <v-btn
-          prepend-icon="mdi-account-multiple"
-          size="small"
-          rounded="pill"
-          color="secondary-darken-1"
-          flat
-        >
-          Membros
-        </v-btn>
+        <project-members :members="project.users">
+          <template #activator="{ props: activatorProps }">
+            <v-btn
+              v-bind="activatorProps"
+              prepend-icon="mdi-account-multiple"
+              size="small"
+              rounded="pill"
+              color="secondary-darken-1"
+              flat
+            >
+              Membros
+            </v-btn>
+          </template>
+        </project-members>
         <v-btn
           prepend-icon="mdi-information"
           size="small"

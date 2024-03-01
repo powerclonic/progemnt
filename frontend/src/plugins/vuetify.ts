@@ -34,5 +34,20 @@ export default createVuetify({
       defaultTheme
     },
   },
-    
+  defaults: {
+    VDialog: {
+      VTextField: {
+        variant: "solo-filled",
+        density: "comfortable",
+        bgColor: "secondary-darken-1",
+        rounded: "lg"
+      },
+      VSelect: {
+        variant: "solo-filled",
+        density: "comfortable",
+        bgColor: "secondary-darken-1",
+        rounded: "lg"
+      },
+    }
+  },
 });

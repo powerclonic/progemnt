@@ -34,4 +34,9 @@ class Project extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function getMember(int $id)
+    {
+        return $this->users()->find($id);
+    }
 }

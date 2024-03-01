@@ -60,3 +60,15 @@ export const updateTask = (task: number, data: any) => {
 export const deleteTask = (task: number) => {
   return ax.delete(`/tasks/${task}`);
 };
+
+export const createMember = (project: number, member: string) => {
+  return ax.post(`/projects/${project}/members`, { member });
+};
+  
+export const updateMember = (project: number, member: string, permission: number) => {
+  return ax.put(`/projects/${project}/members`, { member, permission } );
+};
+  
+export const deleteMember = (project: number, member: string) => {
+  return ax.delete(`/projects/${project}/members`, { data: { member }});
+};
