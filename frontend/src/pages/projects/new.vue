@@ -3,7 +3,6 @@
     Novo projeto
   </h2>
   <v-container class="h-100 py-8">
-    <flash-message />
     <v-form
       class="app-form"
       :disabled="store.loading"

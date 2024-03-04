@@ -38,7 +38,6 @@
           rounded="lg"
           :items="taskResponsibles"
         />
-        <flash-message />
         <the-button
           flat
           block
@@ -67,7 +66,10 @@
     <card-wrapper class="configs">
       <h3>Configurações do projeto</h3>
       <div class="configs__buttons">
-        <project-members :members="project.users">
+        <project-members
+          :members="project.users"
+          :project-id="project.id"
+        >
           <template #activator="{ props: activatorProps }">
             <v-btn
               v-bind="activatorProps"

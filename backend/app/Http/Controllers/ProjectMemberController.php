@@ -25,6 +25,8 @@ class ProjectMemberController extends Controller
 
         if (!$user) return response('...', 404);
 
+        if ($project->users()->find($user->id)) return response('...', 409);
+
         $project->users()->attach($user->id);
 
         return response('...', 200);
@@ -35,7 +37,15 @@ class ProjectMemberController extends Controller
      */
     public function update(UpdateProjectMemberRequest $request, Project $project)
     {
-        //
+        $member = $project->getMember($request->member);
+
+        if (!$member) return response('....', 404);
+
+        Gate::authorize('update-member', [$project, $member, $request->permission]);
+
+        info($member);
+
+        $project->users()->updateExistingPivot($member->id, ['permission' => $request->permission]);
     }
 
     /**
@@ -43,12 +53,10 @@ class ProjectMemberController extends Controller
      */
     public function destroy(DestroyProjectMemberRequest $request, Project $project)
     {
-        $user = User::where('username', $request->member)
-            ->orWhere('email', $request->member)
-            ->first();
+        $member = $project->getMember($request->member);
 
-        if (!$user) return response('...', 404);
+        if (!$member) return response('....', 404);
 
-        Gate::authorize('delete-member', [$project, $project->getMember($user->id)]);
+        Gate::authorize('delete-member', [$project, $member]);
     }
 }

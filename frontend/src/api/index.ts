@@ -65,10 +65,10 @@ export const createMember = (project: number, member: string) => {
   return ax.post(`/projects/${project}/members`, { member });
 };
   
-export const updateMember = (project: number, member: string, permission: number) => {
+export const updateMember = (project: number, member: number, permission: number) => {
   return ax.put(`/projects/${project}/members`, { member, permission } );
 };
   
-export const deleteMember = (project: number, member: string) => {
+export const deleteMember = (project: number, member: number) => {
   return ax.delete(`/projects/${project}/members`, { data: { member }});
 };

@@ -3,7 +3,6 @@
     <h1 class="text-center">
       Minha conta
     </h1>
-    <flash-message />
     <v-form
       v-model="form"
       class="app-form"

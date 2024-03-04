@@ -11,7 +11,6 @@
         <p class="mb-2">
           Para continuar, informe suas credenciais
         </p>
-        <flash-message />
         <v-text-field
           v-model="identifier"
           label="e-mail ou nome de usuário"

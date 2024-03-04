@@ -20,21 +20,20 @@
           />
           <p>{{ member.name }}</p>
           <v-select
+            v-model="member.permission"
             rounded
             hide-details
             density="compact"
-            size="sm"
-            :items="roles"
-            :model-value="member.permission"
-            :disabled="member.permission >= 4"
+            :items="getItems(member)"
+            :disabled="!canUpdate(member)"
+            @update:model-value="(val: number) => updateMember(member, val)"
           />
           <v-btn
             icon="mdi-account-remove"
             class="text-error"
             variant="text"
-            size="lg"
             :disabled="member.permission >= 8"
-            @click="removeMember"
+            @click="() => removeMember(member.id)"
           />
         </card-wrapper>
         <v-dialog>
@@ -43,19 +42,24 @@
               v-bind="addMemberProps"
               prepend-icon="mdi-plus"
               block
+              :disabled="userPermission <= 2"
             >
               Adicionar
             </the-button>
           </template>
           <card-wrapper class="card add-member">
-            <v-form>
+            <v-form @submit.prevent="addMember">
               <div>
                 <p>Nome de usuário ou e-mail</p>
-                <v-text-field />
+                <v-text-field
+                  v-model="username"
+                  placeholder="usuario123"
+                />
               </div>
               <the-button
                 colorful
                 block
+                type="submit"
               >
                 ADICIONAR
               </the-button>
@@ -69,16 +73,40 @@
 
 <script setup lang="ts">
 import { ProjectUser } from "@/types";
-import { PropType } from "vue";
-import { deleteMember } from "@/api";
+import { ref } from "vue";
+import { createMember, updateMember as updateMemberAPI, deleteMember } from "@/api";
+import { useAppStore } from "@/store/app";
 
+const store = useAppStore();
 
 const props = defineProps({
   members: {
-    type: [] as PropType<Array<ProjectUser>>,
+    type: Array<ProjectUser>,
+    required: true
+  },
+  projectId: {
+    type: Number,
     required: true
   }
 });
+
+const canUpdate = (member: ProjectUser) => {
+  if (member.permission >= 4) return false;
+
+  if (member.id === store.user_id) return false;
+
+  if (userPermission <= 2) return false;
+
+  if (member.permission >= 3 && userPermission <= 3) return false;
+
+  return true;
+};
+
+const getItems = (member: ProjectUser) => {
+  if (member.permission >= 3) return roles;
+
+  return roles.slice(0,2);
+};
 
 const roles = [
   {
@@ -99,8 +127,32 @@ const roles = [
   },
 ];
 
-const removeMember = async () => {
-  await deleteMember(3, "teste");
+const userPermission = props.members.find((i) => i.id === store.user_id)?.permission;
+const username = ref("");
+
+const addMember = async () => {
+  try {
+    await createMember(props.projectId, username.value);
+    username.value = "";
+  } catch (e) {
+    //
+  }
+};
+
+const updateMember = async (member: ProjectUser, permission: number) => {
+  try {
+    await updateMemberAPI(props.projectId, member.id, permission);
+  } catch (e) {
+    //    
+  }  
+};
+
+const removeMember = async (member: number) => {
+  try {
+    await deleteMember(3, member);
+  } catch (e) {
+    //
+  }
 };
 
 </script>

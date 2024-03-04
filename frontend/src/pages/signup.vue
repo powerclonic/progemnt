@@ -11,7 +11,6 @@
         <p class="mb-2">
           Para começar, nos informe alguns dados básicos
         </p>
-        <flash-message />
         <v-text-field
           v-model="name"
           label="nome completo"
