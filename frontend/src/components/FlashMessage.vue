@@ -1,11 +1,12 @@
 <template>
-  <v-alert
-    v-if="store.flash_type"
+  <v-snackbar
+    v-model="store.flash_value"
+    timeout="-1"
     class="text-left my-2"
     variant="tonal"
-    :type="store.flash_type"
+    :color="store.flash_type"
     density="compact"
-    :text="store.flash_message"
+    :title="store.flash_message"
   />
 </template>
 
