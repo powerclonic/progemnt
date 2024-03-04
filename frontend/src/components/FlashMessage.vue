@@ -6,8 +6,11 @@
     variant="tonal"
     :color="store.flash_type"
     density="compact"
-    :title="store.flash_message"
-  />
+  >
+    <strong>
+      {{ store.flash_message }}
+    </strong>
+  </v-snackbar>
 </template>
 
 <script setup lang="ts">
