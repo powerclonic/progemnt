@@ -21,6 +21,7 @@
           <p>{{ member.name }}</p>
           <v-select
             v-model="member.permission"
+            class="card__select"
             rounded
             hide-details
             density="compact"
@@ -31,12 +32,12 @@
           <v-btn
             icon="mdi-account-remove"
             class="text-error"
+            :disabled="!canUpdate(member)"
             variant="text"
-            :disabled="member.permission >= 8"
             @click="() => removeMember(member.id)"
           />
         </card-wrapper>
-        <v-dialog>
+        <v-dialog v-model="addMemberDialog">
           <template #activator="{ props: addMemberProps }">
             <the-button
               v-bind="addMemberProps"
@@ -76,8 +77,10 @@ import { ProjectUser } from "@/types";
 import { ref } from "vue";
 import { createMember, updateMember as updateMemberAPI, deleteMember } from "@/api";
 import { useAppStore } from "@/store/app";
+import { useFlashStore } from "@/store/flash";
 
 const store = useAppStore();
+const flash = useFlashStore();
 
 const props = defineProps({
   members: {
@@ -128,12 +131,17 @@ const roles = [
 ];
 
 const userPermission = props.members.find((i) => i.id === store.user_id)?.permission;
+
 const username = ref("");
+const addMemberDialog = ref(false);
 
 const addMember = async () => {
   try {
     await createMember(props.projectId, username.value);
     username.value = "";
+    addMemberDialog.value = false;
+    flash.setMessage("Usuário adicionado ao projeto", "success");
+
   } catch (e) {
     //
   }
@@ -168,10 +176,11 @@ const removeMember = async (member: number) => {
 
 .card {
     &__member {
-        padding: 20px;
+        padding: 20px 0;
 
         display: grid;
-        grid-template-columns: 48px 0.6fr 0.4fr 40px;
+        grid-template-columns: 48px 1fr 40px;
+        grid-template-rows: 1fr 1fr;
 
         align-items: center;
         gap: 10px;
@@ -181,6 +190,7 @@ const removeMember = async (member: number) => {
         }
 
         & > i {
+            display: inline-block;
             background-color: rgb(var(--v-theme-secondary-darken-1));
             width: 40px;
             border-radius: 100%;
@@ -189,13 +199,35 @@ const removeMember = async (member: number) => {
         & > p {
             font-weight: bold;
             line-height: 40px;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     }
+
+    &__select {
+        grid-area: 2 / 1 / 3 / 4;
+    }
+    
 }
 
 .add-member {
     max-width: 512px;
     width: 100%;
     margin: 0 auto;
+}
+
+@media screen and (min-width: 600px) {
+    .card {
+        &__member {
+            grid-template-columns: 48px 0.6fr 0.4fr 40px;
+            grid-template-rows: 1fr;
+        }
+
+        &__select {
+            grid-area: unset;
+        }
+}
 }
 </style>
