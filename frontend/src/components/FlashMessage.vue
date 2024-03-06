@@ -4,14 +4,16 @@
     timeout="10000"
     class="snackbar"
     absolute
-    location="bottom start"
-    :transition="VSlideXTransition"
+    :transition="VSlideYTransition"
+    variant="text"
   >
-    <div
-      class="snackbar__content"
-      :class="`snackbar__content--${store.flash_type}`"
-    >
-      <v-icon :icon="store.flash_icon" class="snackbar__icon" />
+    <div class="snackbar__content">
+      <div
+        class="snackbar__icon"
+        :class="`snackbar__icon--${store.flash_type}`"
+      >
+        <v-icon :icon="store.flash_icon" />
+      </div>
       <p class="snackbar__text">
         {{ store.flash_message }}
       </p>
@@ -21,40 +23,62 @@
 
 <script setup lang="ts">
 import { useFlashStore } from "@/store/flash";
-import { VSlideXTransition } from "vuetify/lib/components/index.mjs";
+import { VSlideYTransition } from "vuetify/lib/components/index.mjs";
 
 const store = useFlashStore();
 </script>
 
 <style scoped lang="scss">
-.snackbar {
-  &__content {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.v-overlay__content,
+.v-snackbar__wrapper,
+.v-snackbar--variant-text {
+  overflow: visible;
+}
 
-    border-left: 4px solid;
+.snackbar {
+  align-items: unset;
+  box-shadow: unset;
+  overflow: unset;
+
+  &__content {
+    display: grid;
+    grid-template-columns: auto 1fr;
+
+    gap: 10px;
     height: 100%;
 
-    &--success {
-      border-color: rgb(var(--v-theme-success));
-    }
+    background-color: rgb(var(--v-theme-surface));
+    color: #fff;
 
-    &--warning {
-      border-color: rgb(var(--v-theme-warning));
-    }
+    border-radius: 4px;
 
-    &--error {
-      border-color: rgb(var(--v-theme-error));
-    }
+    overflow: hidden;
   }
 
   &__icon {
-    font-size: 1.75rem;
+    aspect-ratio: 1/1;
+    font-size: 1.25rem;
+
+    padding: 0.75rem;
+
+    &--success {
+      background-color: rgb(var(--v-theme-success));
+    }
+
+    &--warning {
+      background-color: rgb(var(--v-theme-warning));
+    }
+
+    &--error {
+      background-color: rgb(var(--v-theme-error));
+    }
   }
 
   &__text {
-    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+
+    font-size: 1.2rem;
   }
 }
 </style>

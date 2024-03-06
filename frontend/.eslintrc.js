@@ -25,7 +25,6 @@ module.exports = {
       {
         // Override all options of `prettier` here
         // @see https://prettier.io/docs/en/options.html
-        trailingComma: "es5",
         indent: 2,
       },
     ],
