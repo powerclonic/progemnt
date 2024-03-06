@@ -3,15 +3,15 @@
     v-model="store.flash_value"
     timeout="10000"
     class="snackbar"
-    :color="store.flash_type"
     absolute
-    variant="tonal"
+    location="bottom start"
+    :transition="VSlideXTransition"
   >
-    <div class="snackbar__content">
-      <v-icon
-        :icon="store.flash_icon"
-        class="snackbar__icon"
-      />
+    <div
+      class="snackbar__content"
+      :class="`snackbar__content--${store.flash_type}`"
+    >
+      <v-icon :icon="store.flash_icon" class="snackbar__icon" />
       <p class="snackbar__text">
         {{ store.flash_message }}
       </p>
@@ -21,24 +21,40 @@
 
 <script setup lang="ts">
 import { useFlashStore } from "@/store/flash";
+import { VSlideXTransition } from "vuetify/lib/components/index.mjs";
 
 const store = useFlashStore();
 </script>
 
 <style scoped lang="scss">
 .snackbar {
-    &__content {
-        display: flex;
-        align-items: center;
-        gap: 10px;
+  &__content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    border-left: 4px solid;
+    height: 100%;
+
+    &--success {
+      border-color: rgb(var(--v-theme-success));
     }
 
-    &__icon {
-        font-size: 1.75rem;
+    &--warning {
+      border-color: rgb(var(--v-theme-warning));
     }
 
-    &__text {
-        font-size: 1.25rem;
+    &--error {
+      border-color: rgb(var(--v-theme-error));
     }
+  }
+
+  &__icon {
+    font-size: 1.75rem;
+  }
+
+  &__text {
+    font-size: 1.25rem;
+  }
 }
 </style>

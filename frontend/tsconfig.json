@@ -14,13 +14,18 @@
     "skipLibCheck": true,
     "noEmit": true,
     "paths": {
-      "@/*": [
-       "src/*"
-      ]
-     },
-    "allowSyntheticDefaultImports": true,
+      "@/*": ["src/*"]
+    },
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "*.d.ts", "vite-plugin-pages/client"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "*.d.ts",
+    "vite-plugin-pages/client"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }],
   "exclude": ["node_modules"]
 }

@@ -10,9 +10,7 @@
 </script>
 
 <style>
-
 .v-overlay__scrim {
-    backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
 }
-
 </style>

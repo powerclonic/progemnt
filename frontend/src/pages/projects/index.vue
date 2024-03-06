@@ -1,45 +1,18 @@
 <template>
   <v-container>
-    <h2 class="text-center my-2">
-      Projetos
-    </h2>
+    <h2 class="text-center my-2">Projetos</h2>
     <card-wrapper class="filter">
       <h2>Filtrar por:</h2>
-      <v-chip-group
-        v-model="filterSelect"
-        selected-class="bg-primary"
-        column
-      >
-        <v-chip
-          prepend-icon="mdi-web"
-          value="all"
-        >
-          Todos
-        </v-chip>
-        <v-chip
-          prepend-icon="mdi-account"
-          value="user"
-        >
-          Meus projetos
-        </v-chip>
-        <v-chip
-          prepend-icon="mdi-account-multiple"
-          value="shared"
-        >
+      <v-chip-group v-model="filterSelect" selected-class="bg-primary" column>
+        <v-chip prepend-icon="mdi-web" value="all"> Todos </v-chip>
+        <v-chip prepend-icon="mdi-account" value="user"> Meus projetos </v-chip>
+        <v-chip prepend-icon="mdi-account-multiple" value="shared">
           Compartilhados
         </v-chip>
-        <v-chip
-          prepend-icon="mdi-star"
-          value="favs"
-        >
-          Favoritos
-        </v-chip>
+        <v-chip prepend-icon="mdi-star" value="favs"> Favoritos </v-chip>
       </v-chip-group>
     </card-wrapper>
-    <div
-      v-if="projects"
-      class="projects"
-    >
+    <div v-if="projects" class="projects">
       <card-wrapper
         v-for="(project, index) in projects"
         :key="index"
@@ -52,31 +25,18 @@
           <h2 class="card__title">
             {{ project.title }}
           </h2>
-          <p class="card__owner">
-            de {{ project.users[0].name }}
-          </p>
+          <p class="card__owner">de {{ project.users[0].name }}</p>
           <p class="card__description">
             {{ project.description }}
           </p>
           <div>
-            <v-chip
-              size="small"
-              prepend-icon="mdi-list-status"
-              class="me-1"
-            >
+            <v-chip size="small" prepend-icon="mdi-list-status" class="me-1">
               0/0
             </v-chip>
-            <v-chip
-              class="me-1"
-              size="small"
-              prepend-icon="mdi-calendar"
-            >
+            <v-chip class="me-1" size="small" prepend-icon="mdi-calendar">
               {{ new Date(project.deadline).toLocaleDateString("pt-br") }}
             </v-chip>
-            <v-chip
-              size="small"
-              prepend-icon="mdi-account-multiple"
-            >
+            <v-chip size="small" prepend-icon="mdi-account-multiple">
               {{ project.users.length }}
               {{ project.users.length > 1 ? "membros" : "membro" }}
             </v-chip>
@@ -84,25 +44,14 @@
         </button>
       </card-wrapper>
       <button @click="$router.push('/projects/new')">
-        <v-icon
-          icon="mdi-plus"
-          color="primary"
-        /> Novo projeto
+        <v-icon icon="mdi-plus" color="primary" /> Novo projeto
       </button>
     </div>
-    <div
-      v-else-if="store.loading || true"
-      class="skeleton"
-    >
+    <div v-else-if="store.loading || true" class="skeleton">
       <v-skeleton-loader type="image" />
       <v-skeleton-loader type="image" />
     </div>
-    <div
-      v-else
-      class="empty-msg"
-    >
-      Oops! Parece que não há nada aqui.
-    </div>
+    <div v-else class="empty-msg">Oops! Parece que não há nada aqui.</div>
   </v-container>
 </template>
 

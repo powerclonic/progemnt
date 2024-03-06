@@ -1,7 +1,5 @@
 <template>
-  <h2 class="text-center">
-    Novo projeto
-  </h2>
+  <h2 class="text-center">Novo projeto</h2>
   <v-container class="h-100 py-8">
     <v-form
       class="app-form"
@@ -9,9 +7,7 @@
       @submit.prevent="sendForm"
     >
       <card-wrapper class="input-card">
-        <p class="input-card__label">
-          Título
-        </p>
+        <p class="input-card__label">Título</p>
         <v-text-field
           v-model="title"
           variant="solo-filled"
@@ -20,9 +16,7 @@
         />
       </card-wrapper>
       <card-wrapper class="input-card">
-        <p class="input-card__label">
-          Prazo para conclusão
-        </p>
+        <p class="input-card__label">Prazo para conclusão</p>
         <v-text-field
           v-model="deadline"
           variant="solo-filled"
@@ -32,9 +26,7 @@
         />
       </card-wrapper>
       <card-wrapper class="input-card app-form__div1">
-        <p class="input-card__label">
-          Descrição
-        </p>
+        <p class="input-card__label">Descrição</p>
         <v-textarea
           v-model="description"
           variant="solo-filled"
@@ -45,9 +37,7 @@
         />
       </card-wrapper>
       <card-wrapper class="input-card">
-        <p class="input-card__label">
-          Visibilidade
-        </p>
+        <p class="input-card__label">Visibilidade</p>
         <v-select
           v-model="visibility"
           variant="solo-filled"

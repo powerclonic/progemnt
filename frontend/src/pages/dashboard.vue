@@ -1,17 +1,12 @@
 <template>
   <v-container>
     <div class="app-body">
-      <h1 class="text-center app-body__title">
-        Dashboard
-      </h1>
+      <h1 class="text-center app-body__title">Dashboard</h1>
       <card-wrapper class="projects-container">
         <h2>Mais recentes</h2>
-        <div
-          v-if="dashboardData"
-          class="projects"
-        >
+        <div v-if="dashboardData" class="projects">
           <div
-            v-for="project, index in dashboardData.last_opened"
+            v-for="(project, index) in dashboardData.last_opened"
             :key="index"
             class="projects__card"
           >
@@ -25,7 +20,8 @@
             </div>
             <div class="card__infos">
               <p>
-                Prazo: {{ new Date(project.deadline).toLocaleDateString('pt-BR') }}
+                Prazo:
+                {{ new Date(project.deadline).toLocaleDateString("pt-BR") }}
               </p>
               <p>0/0 tarefas concluídas</p>
             </div>
@@ -33,9 +29,7 @@
         </div>
       </card-wrapper>
       <card-wrapper class="projects-container projects-container--flex">
-        <h2>
-          Todos projetos
-        </h2>
+        <h2>Todos projetos</h2>
         <v-btn
           color="secondary-darken-1"
           flat
@@ -76,23 +70,14 @@
           </v-btn>
         </div>
       </card-wrapper>
-      <button
-        class="app-body__button"
-        @click="$router.push('/projects/new')"
-      >
-        <v-icon
-          icon="mdi-plus"
-          color="primary"
-        /> Novo projeto
+      <button class="app-body__button" @click="$router.push('/projects/new')">
+        <v-icon icon="mdi-plus" color="primary" /> Novo projeto
       </button>
       <card-wrapper class="projects-container">
         <h2>Recém atualizados</h2>
-        <div
-          v-if="dashboardData"
-          class="projects"
-        >
+        <div v-if="dashboardData" class="projects">
           <div
-            v-for="project, index in dashboardData.last_updated"
+            v-for="(project, index) in dashboardData.last_updated"
             :key="index"
             class="projects__card"
           >
@@ -106,7 +91,16 @@
             </div>
             <div class="card__infos">
               <p>
-                atualizado: {{ new Intl.DateTimeFormat("pt-br", { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit" }).format(new Date(project.updated_at)) }}
+                atualizado:
+                {{
+                  new Intl.DateTimeFormat("pt-br", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "2-digit",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }).format(new Date(project.updated_at))
+                }}
               </p>
               <p>0/0 tarefas concluídas</p>
             </div>
@@ -140,7 +134,6 @@ const getDashboardData = async () => {
     dashboardData.value = res.data.data;
 
     console.log(dashboardData.value);
-
   } catch (error) {
     //
   }
@@ -149,7 +142,6 @@ const getDashboardData = async () => {
 onMounted(() => {
   getDashboardData();
 });
-
 </script>
 
 <style scoped lang="scss">
@@ -165,7 +157,6 @@ onMounted(() => {
     background-color: rgb(var(--v-theme-secondary-darken-1));
     border-radius: 10px;
     padding: 1rem 0;
-
   }
 }
 
@@ -214,7 +205,7 @@ onMounted(() => {
 
     & > a {
       text-decoration: none;
-      color: rgb(var(--v-theme-secondary));      
+      color: rgb(var(--v-theme-secondary));
       font-size: 0.9rem;
       align-items: center;
       min-width: fit-content;
@@ -237,7 +228,7 @@ onMounted(() => {
     &__button {
       grid-area: 3 / 1 / 4 / 3;
     }
-    
+
     &__title {
       grid-area: 1 / 1 / 2 / 3;
 
@@ -247,24 +238,25 @@ onMounted(() => {
   }
 
   .projects {
-  & {
-    scrollbar-width: thin;
-    scrollbar-color: rgb(var(--v-theme-secondary)) rgb(var(--v-theme-secondary-darken-2));
-  }
+    & {
+      scrollbar-width: thin;
+      scrollbar-color: rgb(var(--v-theme-secondary))
+        rgb(var(--v-theme-secondary-darken-2));
+    }
 
-  &::-webkit-scrollbar {
-    height: 6px;
-    margin-top: 12px;
-  }
+    &::-webkit-scrollbar {
+      height: 6px;
+      margin-top: 12px;
+    }
 
-  &::-webkit-scrollbar-track {
-    background: rgb(var(--v-theme-secondary-darken-2));
-  }
+    &::-webkit-scrollbar-track {
+      background: rgb(var(--v-theme-secondary-darken-2));
+    }
 
-  &::-webkit-scrollbar-thumb {
-    background-color: rgb(var(--v-theme-secondary));
-    border-radius: 10px;
-  }
+    &::-webkit-scrollbar-thumb {
+      background-color: rgb(var(--v-theme-secondary));
+      border-radius: 10px;
+    }
   }
 }
 </style>

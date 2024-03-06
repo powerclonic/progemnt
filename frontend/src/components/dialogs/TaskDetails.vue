@@ -1,9 +1,5 @@
 <template>
-  <v-dialog
-    v-model="dialog"
-    :activator="activator"
-    scrollable
-  >
+  <v-dialog v-model="dialog" :activator="activator" scrollable>
     <v-card>
       <card-wrapper class="card">
         <v-form @submit.prevent="sendForm">
@@ -82,9 +78,7 @@
               </template>
               <template #default="{ isActive }">
                 <card-wrapper class="confirm">
-                  <h2 class="confirm__title">
-                    Tem certeza?
-                  </h2>
+                  <h2 class="confirm__title">Tem certeza?</h2>
                   <p class="confirm__subtitle">
                     Ao excluir uma tarefa, você não poderá restaurá-la
                   </p>
@@ -129,46 +123,49 @@ const emits = defineEmits(["update", "delete"]);
 const props = defineProps({
   activator: {
     type: String,
-    required: true
+    required: true,
   },
   task: {
     type: Object,
-    required: true
+    required: true,
   },
   members: {
     type: Array,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const statuses = [
   {
     title: "Não iniciada",
-    value: 1
+    value: 1,
   },
   {
     title: "Em andamento",
-    value: 2
+    value: 2,
   },
   {
     title: "Em espera",
-    value: 3
+    value: 3,
   },
   {
     title: "Concluida",
-    value: 4
+    value: 4,
   },
 ];
 
-const responsibles = [...props.members.map((val: any) => {
-  return { 
-    title: val.name,
-    value: val.id
-  };
-}), {
-  title: "Ninguém",
-  value: null
-}];
+const responsibles = [
+  ...props.members.map((val: any) => {
+    return {
+      title: val.name,
+      value: val.id,
+    };
+  }),
+  {
+    title: "Ninguém",
+    value: null,
+  },
+];
 
 const dialog = ref(false);
 const confirmDialog = ref(false);
@@ -176,7 +173,9 @@ const confirmDialog = ref(false);
 const taskModel = ref({
   title: props.task.title,
   description: props.task.description,
-  deadline: !props.task.deadline ? null : format(new Date(props.task.deadline), "yyyy-MM-dd"),
+  deadline: !props.task.deadline
+    ? null
+    : format(new Date(props.task.deadline), "yyyy-MM-dd"),
   responsible: props.task.responsible?.id ?? null,
   status: props.task.status,
 });
@@ -191,7 +190,6 @@ const sendForm = async () => {
   } catch (error) {
     //
   }
-    
 };
 
 const removeTask = async () => {
@@ -206,7 +204,6 @@ const removeTask = async () => {
     //
   }
 };
-
 </script>
 
 <style scoped lang="scss">

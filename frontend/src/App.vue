@@ -8,6 +8,6 @@
 
 <style>
 html {
-    font-family: 'Fredoka', Arial, Helvetica, sans-serif;
+  font-family: "Fredoka", Arial, Helvetica, sans-serif;
 }
 </style>

@@ -4,7 +4,7 @@
     :color="color"
     :class="{
       'text-secondary-darken-1': colorful,
-      'text-primary': lighter || true
+      'text-primary': lighter || true,
     }"
     variant="flat"
   >
@@ -19,13 +19,13 @@ const props = defineProps({
   colorful: {
     type: Boolean,
     required: false,
-    default: false
+    default: false,
   },
   lighter: {
     type: Boolean,
     required: false,
-    default: false
-  }
+    default: false,
+  },
 });
 
 const color = computed(() => {
@@ -37,17 +37,16 @@ const color = computed(() => {
 
 <style scoped lang="scss">
 .the-button {
-    color: rgb(var(--v-theme-primary));
+  color: rgb(var(--v-theme-primary));
 
-    font-weight: bold;
+  font-weight: bold;
 
-    &--colorful {
-        color: rgb(var(--v-theme-secondary-darken-2));
-    }
+  &--colorful {
+    color: rgb(var(--v-theme-secondary-darken-2));
+  }
 
-    &--lighter {
-        background-color: rgb(var(--v-theme-secondary-darken-1));
-    }
+  &--lighter {
+    background-color: rgb(var(--v-theme-secondary-darken-1));
+  }
 }
 </style>
-

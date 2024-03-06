@@ -1,23 +1,17 @@
 <template>
   <v-dialog>
     <template #activator="{ props: activatorProps }">
-      <slot
-        name="activator"
-        :props="activatorProps"
-      />
+      <slot name="activator" :props="activatorProps" />
     </template>
     <v-card class="container">
       <card-wrapper class="card">
         <h2>Membros do projeto</h2>
         <card-wrapper
-          v-for="member, index in members"
+          v-for="(member, index) in members"
           :key="index"
           class="card__member"
         >
-          <v-icon
-            icon="mdi-account"
-            size="large"
-          />
+          <v-icon icon="mdi-account" size="large" />
           <p>{{ member.name }}</p>
           <v-select
             v-model="member.permission"
@@ -55,12 +49,15 @@
                 <v-text-field
                   v-model="username"
                   placeholder="usuario123"
+                  required
                 />
               </div>
               <the-button
                 colorful
                 block
                 type="submit"
+                :disabled="store.loading"
+                :loading="store.loading"
               >
                 ADICIONAR
               </the-button>
@@ -75,7 +72,11 @@
 <script setup lang="ts">
 import { ProjectUser } from "@/types";
 import { ref } from "vue";
-import { createMember, updateMember as updateMemberAPI, deleteMember } from "@/api";
+import {
+  createMember,
+  updateMember as updateMemberAPI,
+  deleteMember,
+} from "@/api";
 import { useAppStore } from "@/store/app";
 import { useFlashStore } from "@/store/flash";
 
@@ -85,12 +86,12 @@ const flash = useFlashStore();
 const props = defineProps({
   members: {
     type: Array<ProjectUser>,
-    required: true
+    required: true,
   },
   projectId: {
     type: Number,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const canUpdate = (member: ProjectUser) => {
@@ -108,29 +109,31 @@ const canUpdate = (member: ProjectUser) => {
 const getItems = (member: ProjectUser) => {
   if (member.permission >= 3) return roles;
 
-  return roles.slice(0,2);
+  return roles.slice(0, 2);
 };
 
 const roles = [
   {
     title: "Espectador",
-    value: 1
-  }, 
+    value: 1,
+  },
   {
     title: "Membro",
-    value: 2
+    value: 2,
   },
   {
     title: "Administrador",
-    value: 3
+    value: 3,
   },
   {
     title: "Dono",
-    value: 4
+    value: 4,
   },
 ];
 
-const userPermission = props.members.find((i) => i.id === store.user_id)?.permission;
+const userPermission = props.members.find(
+  (i) => i.id === store.user_id,
+)?.permission;
 
 const username = ref("");
 const addMemberDialog = ref(false);
@@ -141,7 +144,6 @@ const addMember = async () => {
     username.value = "";
     addMemberDialog.value = false;
     flash.setMessage("Usuário adicionado ao projeto", "success");
-
   } catch (e) {
     //
   }
@@ -151,8 +153,8 @@ const updateMember = async (member: ProjectUser, permission: number) => {
   try {
     await updateMemberAPI(props.projectId, member.id, permission);
   } catch (e) {
-    //    
-  }  
+    //
+  }
 };
 
 const removeMember = async (member: number) => {
@@ -162,72 +164,70 @@ const removeMember = async (member: number) => {
     //
   }
 };
-
 </script>
 
 <style scoped lang="scss">
 @import "@/styles/informationCard.scss";
 
 .container {
-    max-width: 512px;
-    width: 100%;
-    margin: 0 auto;
+  max-width: 512px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .card {
-    &__member {
-        padding: 20px 0;
+  &__member {
+    padding: 20px 0;
 
-        display: grid;
-        grid-template-columns: 48px 1fr 40px;
-        grid-template-rows: 1fr 1fr;
+    display: grid;
+    grid-template-columns: 48px 1fr 40px;
+    grid-template-rows: 1fr 1fr;
 
-        align-items: center;
-        gap: 10px;
+    align-items: center;
+    gap: 10px;
 
-        & > * {
-            height: 100%;
-        }
-
-        & > i {
-            display: inline-block;
-            background-color: rgb(var(--v-theme-secondary-darken-1));
-            width: 40px;
-            border-radius: 100%;
-        }
-
-        & > p {
-            font-weight: bold;
-            line-height: 40px;
-
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+    & > * {
+      height: 100%;
     }
 
-    &__select {
-        grid-area: 2 / 1 / 3 / 4;
+    & > i {
+      display: inline-block;
+      background-color: rgb(var(--v-theme-secondary-darken-1));
+      width: 40px;
+      border-radius: 100%;
     }
-    
+
+    & > p {
+      font-weight: bold;
+      line-height: 40px;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  &__select {
+    grid-area: 2 / 1 / 3 / 4;
+  }
 }
 
 .add-member {
-    max-width: 512px;
-    width: 100%;
-    margin: 0 auto;
+  max-width: 512px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 @media screen and (min-width: 600px) {
-    .card {
-        &__member {
-            grid-template-columns: 48px 0.6fr 0.4fr 40px;
-            grid-template-rows: 1fr;
-        }
+  .card {
+    &__member {
+      grid-template-columns: 48px 0.6fr 0.4fr 40px;
+      grid-template-rows: 1fr;
+    }
 
-        &__select {
-            grid-area: unset;
-        }
-}
+    &__select {
+      grid-area: unset;
+    }
+  }
 }
 </style>

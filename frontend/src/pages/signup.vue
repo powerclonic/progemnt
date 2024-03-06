@@ -8,9 +8,7 @@
         @submit.prevent="sendForm"
       >
         <h1>Bem-vindo(a)!</h1>
-        <p class="mb-2">
-          Para começar, nos informe alguns dados básicos
-        </p>
+        <p class="mb-2">Para começar, nos informe alguns dados básicos</p>
         <v-text-field
           v-model="name"
           label="nome completo"
@@ -94,29 +92,45 @@ const username = ref("");
 const confirmPassword = ref("");
 
 const nameRegExp = /^[a-zA-Z\u00C0-\u00FF]+(?:\s+[a-zA-Z\u00C0-\u00FF]+)*$/;
-const emailRegExp = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+const emailRegExp =
+  /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
 const usernameRegExp = /^[a-zA-Z0-9_]+$/;
 const passwordRegexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])\S{8,}$/;
 
 const rules = {
   required: (value: any) => !!value || "Obrigatório",
-  maxLength: (value: any) => value.length <= 512 || "Número máximo de caracteres atingido",
+  maxLength: (value: any) =>
+    value.length <= 512 || "Número máximo de caracteres atingido",
 
-  usernameFormat: (value: any) => !!usernameRegExp.exec(value) || "O nome de usuário eve conter apenas letras, números e underscores",
-  usernameLength: (value: any) => requiredLength(value, 3, 16, "nome de usuário"),
+  usernameFormat: (value: any) =>
+    !!usernameRegExp.exec(value) ||
+    "O nome de usuário eve conter apenas letras, números e underscores",
+  usernameLength: (value: any) =>
+    requiredLength(value, 3, 16, "nome de usuário"),
 
-  nameFormat: (value: any) => !!nameRegExp.exec(value) || "O nome deve conter apenas letras e não pode começar nem terminar com espaços",
+  nameFormat: (value: any) =>
+    !!nameRegExp.exec(value) ||
+    "O nome deve conter apenas letras e não pode começar nem terminar com espaços",
   nameLength: (value: any) => requiredLength(value, 3, 128, "nome"),
 
-  emailFormat: (value: any) => !!emailRegExp.exec(value) || "Formato de e-mail inválido",
+  emailFormat: (value: any) =>
+    !!emailRegExp.exec(value) || "Formato de e-mail inválido",
 
-  passwordFormat: (value: any) => !!passwordRegexp.exec(value) || "A senha deve ter no mínimo 8 caracteres e conter letras maiúsculas e minúsculas, números e caracteres especiais.",
+  passwordFormat: (value: any) =>
+    !!passwordRegexp.exec(value) ||
+    "A senha deve ter no mínimo 8 caracteres e conter letras maiúsculas e minúsculas, números e caracteres especiais.",
 
   equal: (value: any) => value === password.value || "As senhas não são iguais",
 };
 
-const requiredLength = (value: string, min: number, max: number, field: string) =>
-  (value.length >= min && value.length <= max) || `O ${field} deve ter no mínimo ${min} e no máximo ${max} caracteres`;
+const requiredLength = (
+  value: string,
+  min: number,
+  max: number,
+  field: string,
+) =>
+  (value.length >= min && value.length <= max) ||
+  `O ${field} deve ter no mínimo ${min} e no máximo ${max} caracteres`;
 
 const sendForm = async () => {
   try {
@@ -127,7 +141,10 @@ const sendForm = async () => {
       password: password.value,
     });
 
-    flashStore.setMessage("Cadastro concluído, você já pode iniciar sua sessão.", "success");
+    flashStore.setMessage(
+      "Cadastro concluído, você já pode iniciar sua sessão.",
+      "success",
+    );
 
     router.push("/signin");
   } catch (error) {

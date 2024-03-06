@@ -22,8 +22,8 @@ const defaultTheme = {
     "secondary-darken-2": "#1B1B1E",
     white: "#FBFBFB",
     warning: "#F5E10F",
-    error: "#FF6060"
-  }
+    error: "#FF6060",
+  },
 };
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
@@ -31,7 +31,7 @@ export default createVuetify({
   theme: {
     defaultTheme: "defaultTheme",
     themes: {
-      defaultTheme
+      defaultTheme,
     },
   },
   defaults: {
@@ -40,14 +40,14 @@ export default createVuetify({
         variant: "solo-filled",
         density: "comfortable",
         bgColor: "secondary-darken-1",
-        rounded: "lg"
+        rounded: "lg",
       },
       VSelect: {
         variant: "solo-filled",
         density: "comfortable",
         bgColor: "secondary-darken-1",
-        rounded: "lg"
+        rounded: "lg",
       },
-    }
+    },
   },
 });

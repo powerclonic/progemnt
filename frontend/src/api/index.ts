@@ -1,8 +1,12 @@
 import { SignUpData, UpdateUserData } from "@/types";
 import ax from "./axios";
 
-export const signIn = (identifier: string, password: string, remember: boolean) => {
-  return ax.post("/auth", {identifier, password, remember});
+export const signIn = (
+  identifier: string,
+  password: string,
+  remember: boolean,
+) => {
+  return ax.post("/auth", { identifier, password, remember });
 };
 
 export const signOut = () => {
@@ -54,7 +58,7 @@ export const createTask = (project: number, data: any) => {
 };
 
 export const updateTask = (task: number, data: any) => {
-  return ax.put(`/tasks/${task}`, data );
+  return ax.put(`/tasks/${task}`, data);
 };
 
 export const deleteTask = (task: number) => {
@@ -64,11 +68,15 @@ export const deleteTask = (task: number) => {
 export const createMember = (project: number, member: string) => {
   return ax.post(`/projects/${project}/members`, { member });
 };
-  
-export const updateMember = (project: number, member: number, permission: number) => {
-  return ax.put(`/projects/${project}/members`, { member, permission } );
+
+export const updateMember = (
+  project: number,
+  member: number,
+  permission: number,
+) => {
+  return ax.put(`/projects/${project}/members`, { member, permission });
 };
-  
+
 export const deleteMember = (project: number, member: number) => {
-  return ax.delete(`/projects/${project}/members`, { data: { member }});
+  return ax.delete(`/projects/${project}/members`, { data: { member } });
 };

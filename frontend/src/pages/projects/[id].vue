@@ -1,12 +1,7 @@
 <template>
-  <v-dialog
-    v-model="newTaskDialog"
-    class="dialog"
-  >
+  <v-dialog v-model="newTaskDialog" class="dialog">
     <card-wrapper class="dialog__body elevation-8">
-      <h2 class="dialog__title">
-        Nova tarefa
-      </h2>
+      <h2 class="dialog__title">Nova tarefa</h2>
       <v-form @submit.prevent="sendTaskForm">
         <v-text-field
           v-model="taskModel.title"
@@ -51,14 +46,9 @@
       </v-form>
     </card-wrapper>
   </v-dialog>
-  <v-container
-    v-if="project"
-    class="app-body"
-  >
+  <v-container v-if="project" class="app-body">
     <div class="title">
-      <p class="title__aux">
-        Projeto
-      </p>
+      <p class="title__aux">Projeto</p>
       <h1 class="title__main">
         {{ project.title }}
       </h1>
@@ -66,10 +56,7 @@
     <card-wrapper class="configs">
       <h3>Configurações do projeto</h3>
       <div class="configs__buttons">
-        <project-members
-          :members="project.users"
-          :project-id="project.id"
-        >
+        <project-members :members="project.users" :project-id="project.id">
           <template #activator="{ props: activatorProps }">
             <v-btn
               v-bind="activatorProps"
@@ -134,11 +121,10 @@
           {{ format(new Date(project.deadline), "dd/MM/yyyy") }}
         </v-chip>
         <v-chip prepend-icon="mdi-account">
-          {{ project.users.length }} {{ project.users.length > 1 ? 'membros' : 'membro' }} 
+          {{ project.users.length }}
+          {{ project.users.length > 1 ? "membros" : "membro" }}
         </v-chip>
-        <v-chip prepend-icon="mdi-list-status">
-          0/0 tarefas
-        </v-chip>
+        <v-chip prepend-icon="mdi-list-status"> 0/0 tarefas </v-chip>
       </div>
     </card-wrapper>
     <card-wrapper class="tasks">
@@ -147,28 +133,20 @@
           <h2>Tarefas</h2>
           <p>0 de 0 tarefas completadas</p>
         </div>
-        <button
-          class="tasks__title-right"
-          @click="newTaskDialog = true"
-        >
+        <button class="tasks__title-right" @click="newTaskDialog = true">
           nova tarefa
-          <v-icon
-            icon="mdi-plus"
-            color="primary"
-          />
+          <v-icon icon="mdi-plus" color="primary" />
         </button>
-      </div>  
+      </div>
       <div class="tasks__container">
         <card-wrapper
-          v-for="task, index in project.tasks"
+          v-for="(task, index) in project.tasks"
           :key="index"
           class="task-card"
         >
           <div class="task-card__title">
             <h3>{{ task.title }}</h3>
-            <p :id="'task_dialog_' + index">
-              acessar >
-            </p>
+            <p :id="'task_dialog_' + index">acessar ></p>
             <task-details
               :activator="'#task_dialog_' + index"
               :task="task"
@@ -178,16 +156,10 @@
             />
           </div>
           <div class="task-card__footer">
-            <p
-              v-if="task.responsible"
-              class="task-card__responsible"
-            >
+            <p v-if="task.responsible" class="task-card__responsible">
               <v-icon icon="mdi-account" /> {{ task.responsible.name }}
             </p>
-            <p
-              v-else
-              class="task-card__responsible"
-            >
+            <p v-else class="task-card__responsible">
               <v-icon icon="mdi-account-cancel" /> Sem responsável
             </p>
             <v-chip
@@ -199,30 +171,12 @@
       </div>
     </card-wrapper>
   </v-container>
-  <v-container
-    v-else
-    class="skeleton-container"
-  >
-    <v-skeleton-loader
-      type="text"
-      width="150"
-    />
-    <v-skeleton-loader
-      type="heading"
-      width="300"
-    />
-    <v-skeleton-loader
-      type="image"
-      class="w-100"
-    />
-    <v-skeleton-loader
-      type="image"
-      class="w-100"
-    />
-    <v-skeleton-loader
-      type="image"
-      class="w-100"
-    />
+  <v-container v-else class="skeleton-container">
+    <v-skeleton-loader type="text" width="150" />
+    <v-skeleton-loader type="heading" width="300" />
+    <v-skeleton-loader type="image" class="w-100" />
+    <v-skeleton-loader type="image" class="w-100" />
+    <v-skeleton-loader type="image" class="w-100" />
   </v-container>
 </template>
 
@@ -249,15 +203,15 @@ const getRelative = (date: string) => {
 const route = useRoute();
 const store = useAppStore();
 
-const project: Ref<Project|null> = ref(null);
+const project: Ref<Project | null> = ref(null);
 const newTaskDialog: Ref<boolean> = ref(false);
 
 //* Task v-models
 const taskModel = ref({
-  title: "", 
-  deadline: null, 
-  responsible: null, 
-  description: null, 
+  title: "",
+  deadline: null,
+  responsible: null,
+  description: null,
 });
 
 const taskResponsibles = computed(() => {
@@ -265,60 +219,62 @@ const taskResponsibles = computed(() => {
 
   return [
     ...project.value.users.map((val: any) => {
-      return { 
+      return {
         title: val.name,
-        value: val.id
+        value: val.id,
       };
     }),
     {
       title: "Ninguém",
-      value: null
-    }
+      value: null,
+    },
   ];
 });
 
 const getStatusConfig = (status: number) => {
   switch (status) {
-  case 1: 
-    return {
-      text: "Não iniciada",
-      color: "error",
-      prependIcon: "mdi-alert-circle"
-    };
-  case 2: 
-    return {
-      text: "Em andamento",
-      color: "info",
-      prependIcon: "mdi-clock"
-    };
-  case 3: 
-    return {
-      text: "Em espera",
-      color: "warning",
-      prependIcon: "mdi-alert-octagon"
-    };
-  case 4: 
-    return {
-      text: "Concluída",
-      color: "success",
-      prependIcon: "mdi-check-circle"
-    };
+    case 1:
+      return {
+        text: "Não iniciada",
+        color: "error",
+        prependIcon: "mdi-alert-circle",
+      };
+    case 2:
+      return {
+        text: "Em andamento",
+        color: "info",
+        prependIcon: "mdi-clock",
+      };
+    case 3:
+      return {
+        text: "Em espera",
+        color: "warning",
+        prependIcon: "mdi-alert-octagon",
+      };
+    case 4:
+      return {
+        text: "Concluída",
+        color: "success",
+        prependIcon: "mdi-check-circle",
+      };
   }
 };
 
 const updateTask = (t: Ref<any>, i: number) => {
-  if (! project.value) return;
+  if (!project.value) return;
 
   project.value.tasks[i] = Object.assign(project.value.tasks[i], t.value);
 
-  project.value.tasks[i].responsible = project.value.users.find((u: any) => u.id = t.value.responsible);
+  project.value.tasks[i].responsible = project.value.users.find(
+    (u: any) => (u.id = t.value.responsible),
+  );
 };
 
 const deleteTask = (i: number) => {
   project.value?.tasks.splice(i, 1);
 };
 
-const getData = async () => { 
+const getData = async () => {
   try {
     // @ts-expect-error
     const res = await showProject(route.params.id);
@@ -334,10 +290,10 @@ const sendTaskForm = async () => {
     await createTask(project.value?.id, taskModel.value);
 
     taskModel.value = {
-      title: "", 
-      deadline: null, 
-      responsible: null, 
-      description: null,  
+      title: "",
+      deadline: null,
+      responsible: null,
+      description: null,
     };
 
     newTaskDialog.value = false;
@@ -419,7 +375,7 @@ onMounted(() => {
 .tasks {
   padding: 10px;
   overflow: hidden;
-  
+
   &__title {
     display: flex;
     justify-content: space-between;
@@ -510,7 +466,7 @@ onMounted(() => {
     width: 100%;
 
     margin: auto;
-   }
+  }
 }
 
 @media screen and (min-width: 600px) {
@@ -531,29 +487,31 @@ onMounted(() => {
     }
   }
 
-  .details, .description {
+  .details,
+  .description {
     & > h3 {
-        height: 2rem;
+      height: 2rem;
     }
 
-    &__chips, &__text {
-        max-width: 100%;
-        overflow: hidden scroll;
-        height: calc(100% - 2rem - 10px);
-        max-height: unset;
+    &__chips,
+    &__text {
+      max-width: 100%;
+      overflow: hidden scroll;
+      height: calc(100% - 2rem - 10px);
+      max-height: unset;
     }
   }
 
   .tasks {
-    grid-area: 2 / 2 / 5 / 3; 
+    grid-area: 2 / 2 / 5 / 3;
 
     &__title {
-        height: 50px;
+      height: 50px;
     }
 
     &__container {
-        overflow-y: scroll;
-    height: calc(100% - 60px);
+      overflow-y: scroll;
+      height: calc(100% - 60px);
     }
   }
 }

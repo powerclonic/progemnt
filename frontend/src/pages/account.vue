@@ -1,8 +1,6 @@
 <template>
   <v-container class="app-body">
-    <h1 class="text-center">
-      Minha conta
-    </h1>
+    <h1 class="text-center">Minha conta</h1>
     <v-form
       v-model="form"
       class="app-form"
@@ -91,12 +89,7 @@
       >
         encerrar sessão
       </the-button>
-      <the-button
-        block
-        class="action-btn"
-        disabled
-        @click="deleteAccount"
-      >
+      <the-button block class="action-btn" disabled @click="deleteAccount">
         deletar conta
       </the-button>
     </v-form>
@@ -113,8 +106,8 @@ import { useRouter, definePage } from "vue-router/auto";
 
 definePage({
   meta: {
-    requireAuth: true
-  }
+    requireAuth: true,
+  },
 });
 
 const store = useAppStore();
@@ -133,11 +126,15 @@ const passwordRegexp = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])\S{8,}$/;
 
 const rules = {
   required: (value: any) => !!value || "Obrigatório",
-  maxLength: (value: any) => value.length <= 512 || "Número máximo de caracteres atingido",
+  maxLength: (value: any) =>
+    value.length <= 512 || "Número máximo de caracteres atingido",
 
-  passwordFormat: (value: any) => !!passwordRegexp.exec(value) || "A senha deve ter no mínimo 8 caracteres e conter letras maiúsculas e minúsculas, números e caracteres especiais.",
+  passwordFormat: (value: any) =>
+    !!passwordRegexp.exec(value) ||
+    "A senha deve ter no mínimo 8 caracteres e conter letras maiúsculas e minúsculas, números e caracteres especiais.",
 
-  equal: (value: any) => value === newPassword.value || "As senhas não são iguais",
+  equal: (value: any) =>
+    value === newPassword.value || "As senhas não são iguais",
 };
 
 const getData = async () => {
@@ -146,7 +143,6 @@ const getData = async () => {
 
     email.value = res.data.data.email;
     username.value = res.data.data.username;
-
   } catch (error) {
     //
   }
@@ -174,7 +170,7 @@ const updateUser = async () => {
   try {
     await userUpdate({
       password: newPassword.value,
-      current_password: curPassword.value
+      current_password: curPassword.value,
     });
 
     flashStore.setMessage("Senha atualizada com sucesso", "success");
@@ -217,7 +213,7 @@ onMounted(() => {
 .app-card {
   padding: 8px 12px;
 
-  &>h2 {
+  & > h2 {
     margin-bottom: 12px;
   }
 }

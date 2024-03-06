@@ -17,7 +17,8 @@ axiosInstance.interceptors.request.use(
       request.method = "post";
     }
 
-    if (useAppStore().isAuthenticated) request.headers.setAuthorization("Bearer " + useAppStore().access_token);
+    if (useAppStore().isAuthenticated)
+      request.headers.setAuthorization("Bearer " + useAppStore().access_token);
 
     useFlashStore().unsetMesage();
 
@@ -30,7 +31,8 @@ axiosInstance.interceptors.request.use(
     useAppStore().loading = false;
 
     return Promise.reject(error);
-  });
+  },
+);
 
 axiosInstance.interceptors.response.use(
   (response) => {
@@ -49,28 +51,32 @@ axiosInstance.interceptors.response.use(
     const data: any = error.response.data;
 
     switch (error.request.status) {
-    case 401: {
-      if (data && data.message === "Unauthenticated.") {
-        useAppStore().unsetAuthData();
-        useFlashStore().setMessage("Sua sessão expirou, entre novamente.", "warning");
-        router.push("/signin");
+      case 401: {
+        if (data && data.message === "Unauthenticated.") {
+          useAppStore().unsetAuthData();
+          useFlashStore().setMessage(
+            "Sua sessão expirou, entre novamente.",
+            "warning",
+          );
+          router.push("/signin");
+          break;
+        }
+
+        useFlashStore().setMessage(data, "error");
         break;
       }
-
-      useFlashStore().setMessage(data, "error");
-      break;
-    }
-    case 422: {
-      useFlashStore().setMessage(data.message, "error");
-      break;
-    }
-    default: {
-      useFlashStore().setMessage(data, "error");
-      break;
-    }
+      case 422: {
+        useFlashStore().setMessage(data.message, "error");
+        break;
+      }
+      default: {
+        useFlashStore().setMessage(data, "error");
+        break;
+      }
     }
 
     return Promise.reject(error);
-  });
+  },
+);
 
 export default axiosInstance;

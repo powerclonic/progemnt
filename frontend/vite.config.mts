@@ -29,17 +29,16 @@ export default defineConfig({
     Components(),
     Fonts({
       google: {
-        families: [ {
-          name: "Fredoka",
-          styles: "wght@300;400;500;600;700",
-        }],
+        families: [
+          {
+            name: "Fredoka",
+            styles: "wght@300;400;500;600;700",
+          },
+        ],
       },
     }),
     AutoImport({
-      imports: [
-        "vue",
-        "vue-router",
-      ],
+      imports: ["vue", "vue-router"],
       dts: true,
       eslintrc: {
         enabled: true,
@@ -52,18 +51,10 @@ export default defineConfig({
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
-    extensions: [
-      ".js",
-      ".json",
-      ".jsx",
-      ".mjs",
-      ".ts",
-      ".tsx",
-      ".vue",
-    ],
+    extensions: [".js", ".json", ".jsx", ".mjs", ".ts", ".tsx", ".vue"],
   },
   server: {
     port: 3000,
-    host: "0.0.0.0"
+    host: "0.0.0.0",
   },
 });

@@ -5,23 +5,18 @@
 // Read more: https://github.com/vuejs/core/pull/3399
 export {}
 
-declare module 'vue' {
+declare module "vue" {
   export interface GlobalComponents {
-    CardWrapper: typeof import('./src/components/CardWrapper.vue')['default']
-    DialogWrapper: typeof import('./src/components/dialogs/DialogWrapper.vue')['default']
-    ErrorMessage: typeof import('./src/components/ErrorMessage.vue')['default']
-    FlashMessage: typeof import('./src/components/FlashMessage.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
-    NewTask: typeof import('./src/components/NewTask.vue')['default']
-    ProgemntLogo: typeof import('./src/components/ProgemntLogo.vue')['default']
-    ProjectChanges: typeof import('./src/components/dialogs/ProjectChanges.vue')['default']
-    ProjectDetails: typeof import('./src/components/dialogs/ProjectDetails.vue')['default']
-    ProjectMembers: typeof import('./src/components/dialogs/ProjectMembers.vue')['default']
-    'ProjectMembers.1': typeof import('./src/components/dialogs/ProjectMembers.1.vue')['default']
-    ProjectVisibility: typeof import('./src/components/dialogs/ProjectVisibility.vue')['default']
-    RouterLink: typeof import('vue-router')['RouterLink']
-    RouterView: typeof import('vue-router')['RouterView']
-    TaskDetails: typeof import('./src/components/dialogs/TaskDetails.vue')['default']
-    TheButton: typeof import('./src/components/TheButton.vue')['default']
+    CardWrapper: (typeof import("./src/components/CardWrapper.vue"))["default"];
+    FlashMessage: (typeof import("./src/components/FlashMessage.vue"))["default"];
+    ProgemntLogo: (typeof import("./src/components/ProgemntLogo.vue"))["default"];
+    ProjectChanges: (typeof import("./src/components/dialogs/ProjectChanges.vue"))["default"];
+    ProjectDetails: (typeof import("./src/components/dialogs/ProjectDetails.vue"))["default"];
+    ProjectMembers: (typeof import("./src/components/dialogs/ProjectMembers.vue"))["default"];
+    ProjectVisibility: (typeof import("./src/components/dialogs/ProjectVisibility.vue"))["default"];
+    RouterLink: (typeof import("vue-router"))["RouterLink"];
+    RouterView: (typeof import("vue-router"))["RouterView"];
+    TaskDetails: (typeof import("./src/components/dialogs/TaskDetails.vue"))["default"];
+    TheButton: (typeof import("./src/components/TheButton.vue"))["default"];
   }
 }

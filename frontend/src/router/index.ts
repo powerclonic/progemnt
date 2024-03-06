@@ -17,7 +17,10 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requireAuth && !useAppStore().isAuthenticated) {
-    useFlashStore().setMessage("Você deve estar autenticado para acessar esta página", "warning");
+    useFlashStore().setMessage(
+      "Você deve estar autenticado para acessar esta página",
+      "warning",
+    );
     next("/signin");
   }
 
