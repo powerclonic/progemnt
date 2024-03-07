@@ -4,7 +4,7 @@
       <slot name="activator" :props="activatorProps" />
     </template>
     <v-card class="container">
-      <card-wrapper class="card">
+      <card-wrapper loader class="card">
         <h2>Membros do projeto</h2>
         <card-wrapper
           v-for="(member, index) in members"
@@ -20,13 +20,13 @@
             hide-details
             density="compact"
             :items="getItems(member)"
-            :disabled="!canUpdate(member)"
+            :disabled="!canUpdate(member) || store.loading"
             @update:model-value="(val: number) => updateMember(member, val)"
           />
           <v-btn
             icon="mdi-account-remove"
             class="text-error"
-            :disabled="!canUpdate(member)"
+            :disabled="!canUpdate(member) || store.loading"
             variant="text"
             @click="() => removeMember(member.id)"
           />
@@ -152,6 +152,8 @@ const addMember = async () => {
 const updateMember = async (member: ProjectUser, permission: number) => {
   try {
     await updateMemberAPI(props.projectId, member.id, permission);
+
+    flash.setMessage("Nível de permissão alterado", "success");
   } catch (e) {
     //
   }
