@@ -5,7 +5,9 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectMemberController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use App\Mail\Teste;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,4 +53,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{task}', [TaskController::class, 'update']);
         Route::delete('/{task}', [TaskController::class, 'destroy']);
     });
+});
+Route::get('/w', function () {
+    Mail::to('contato@mdresch.com.br')->send(new Teste());
 });
