@@ -40,7 +40,13 @@
       </div>
     </template>
     <template #extension>
-      <div class="bar-border" />
+      <v-progress-linear
+        v-if="store.loading"
+        indeterminate
+        color="primary"
+        class="card-wrapper__loader"
+      />
+      <div v-else class="bar-border" />
     </template>
   </v-app-bar>
 </template>

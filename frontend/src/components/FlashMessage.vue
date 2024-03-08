@@ -4,7 +4,6 @@
     timeout="10000"
     class="snackbar"
     absolute
-    :transition="VSlideYTransition"
     variant="text"
   >
     <div class="snackbar__content">
@@ -23,7 +22,6 @@
 
 <script setup lang="ts">
 import { useFlashStore } from "@/store/flash";
-import { VSlideYTransition } from "vuetify/lib/components/index.mjs";
 
 const store = useFlashStore();
 </script>
@@ -47,7 +45,7 @@ const store = useFlashStore();
     gap: 10px;
     height: 100%;
 
-    background-color: rgb(var(--v-theme-surface));
+    background-color: rgb(var(--v-theme-secondary-darken-2));
     color: #fff;
 
     border-radius: 4px;
@@ -79,6 +77,7 @@ const store = useFlashStore();
     align-items: center;
 
     font-size: 1.2rem;
+    padding-right: 10px;
   }
 }
 </style>

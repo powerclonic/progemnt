@@ -13,5 +13,7 @@ return [
     'update_failed' => 'Erro ao atualizar :resource',
     'delete_failed' => 'Erro ao deletar :resource',
     'create_failed' => 'Erro ao criar :resource',
-    'password_failed' => 'Senha atual incorreta'
+    'password_failed' => 'Senha atual incorreta',
+    'not_found' => ':Resource não encontrado(a)',
+    'user_already_in_project' => 'O usuário já faz parte do projeto'
 ];

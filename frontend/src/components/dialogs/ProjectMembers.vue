@@ -1,5 +1,5 @@
 <template>
-  <v-dialog>
+  <v-dialog max-width="512">
     <template #activator="{ props: activatorProps }">
       <slot name="activator" :props="activatorProps" />
     </template>
@@ -28,7 +28,7 @@
             class="text-error"
             :disabled="!canUpdate(member) || store.loading"
             variant="text"
-            @click="() => removeMember(member.id)"
+            @click="() => removeMember(member.id, index)"
           />
         </card-wrapper>
         <v-dialog v-model="addMemberDialog">
@@ -94,6 +94,8 @@ const props = defineProps({
   },
 });
 
+const emits = defineEmits(["update:member-removed"]);
+
 const canUpdate = (member: ProjectUser) => {
   if (member.permission >= 4) return false;
 
@@ -108,6 +110,8 @@ const canUpdate = (member: ProjectUser) => {
 
 const getItems = (member: ProjectUser) => {
   if (member.permission >= 3) return roles;
+
+  if (userPermission >= 4) return roles.slice(0, 3);
 
   return roles.slice(0, 2);
 };
@@ -159,9 +163,11 @@ const updateMember = async (member: ProjectUser, permission: number) => {
   }
 };
 
-const removeMember = async (member: number) => {
+const removeMember = async (member: number, index: number) => {
   try {
-    await deleteMember(3, member);
+    await deleteMember(props.projectId, member);
+    flash.setMessage("Usuário removido do projeto", "success");
+    emits("update:member-removed", index);
   } catch (e) {
     //
   }
@@ -170,12 +176,6 @@ const removeMember = async (member: number) => {
 
 <style scoped lang="scss">
 @import "@/styles/informationCard.scss";
-
-.container {
-  max-width: 512px;
-  width: 100%;
-  margin: 0 auto;
-}
 
 .card {
   &__member {

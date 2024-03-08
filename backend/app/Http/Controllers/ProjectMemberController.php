@@ -23,13 +23,17 @@ class ProjectMemberController extends Controller
             ->orWhere('email', $request->member)
             ->first();
 
-        if (!$user) return response('...', 404);
+        if (!$user) return response(__('messages.not_found', ['resource' => 'usuário']), 404);
 
-        if ($project->users()->find($user->id)) return response('...', 409);
+        if ($project->users()->find($user->id)) return response(__('messages.user_already_in_project'), 409);
 
-        $project->users()->attach($user->id);
+        try {
+            $project->users()->attach($user->id);
+        } catch (\Exception $error) {
+            return response(__('messages.create_failed', ['resource' => 'membro']));
+        }
 
-        return response('...', 200);
+        return response(__('messages.created', ['resource' => 'membro']), 200);
     }
 
     /**
@@ -39,13 +43,16 @@ class ProjectMemberController extends Controller
     {
         $member = $project->getMember($request->member);
 
-        if (!$member) return response('....', 404);
+        if (!$member) return response(__('messages.not_found', ['resource' => 'membro']), 404);
 
         Gate::authorize('update-member', [$project, $member, $request->permission]);
+        try {
+            $project->users()->updateExistingPivot($member->id, ['permission' => $request->permission]);
+        } catch (\Exception $error) {
+            return response(__('messages.update_failed', ['resource' => 'membro']));
+        }
 
-        info($member);
-
-        $project->users()->updateExistingPivot($member->id, ['permission' => $request->permission]);
+        return response(__('messages.updated', ['resource' => 'membro']));
     }
 
     /**
@@ -55,8 +62,16 @@ class ProjectMemberController extends Controller
     {
         $member = $project->getMember($request->member);
 
-        if (!$member) return response('....', 404);
+        if (!$member) return response(__('messages.not_found', ['resource' => 'membro']), 404);
 
         Gate::authorize('delete-member', [$project, $member]);
+
+        try {
+            $project->users()->detach($member->id);
+        } catch (\Exception $error) {
+            return response(__('messages.delete_failed', ['resource' => 'membro']));
+        }
+
+        return response(__('messages.deleted', ['resource' => 'membro']));
     }
 }

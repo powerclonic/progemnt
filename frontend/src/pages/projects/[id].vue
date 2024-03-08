@@ -56,7 +56,11 @@
     <card-wrapper class="configs">
       <h3>Configurações do projeto</h3>
       <div class="configs__buttons">
-        <project-members :members="project.users" :project-id="project.id">
+        <project-members
+          :members="project.users"
+          :project-id="project.id"
+          @update:member-removed="(i) => project?.users.splice(i, 1)"
+        >
           <template #activator="{ props: activatorProps }">
             <v-btn
               v-bind="activatorProps"
@@ -172,11 +176,13 @@
     </card-wrapper>
   </v-container>
   <v-container v-else class="skeleton-container">
-    <v-skeleton-loader type="text" width="150" />
-    <v-skeleton-loader type="heading" width="300" />
-    <v-skeleton-loader type="image" class="w-100" />
-    <v-skeleton-loader type="image" class="w-100" />
-    <v-skeleton-loader type="image" class="w-100" />
+    <div class="skeleton_1">
+      <v-skeleton-loader type="heading" width="150" />
+    </div>
+    <v-skeleton-loader type="image" class="w-100 skeleton_3" />
+    <v-skeleton-loader type="image" class="w-100 skeleton_4" />
+    <v-skeleton-loader type="image" class="w-100 skeleton_5" />
+    <v-skeleton-loader type="image" class="w-100 skeleton_6" />
   </v-container>
 </template>
 
@@ -445,7 +451,7 @@ onMounted(() => {
 
 .skeleton-container {
   display: grid;
-  grid-template-rows: repeat(5, auto);
+  grid-template-rows: repeat(6, auto);
   grid-template-columns: 1fr;
   place-items: center;
   justify-content: center;
@@ -512,6 +518,38 @@ onMounted(() => {
     &__container {
       overflow-y: scroll;
       height: calc(100% - 60px);
+    }
+  }
+
+  .skeleton-container {
+    display: grid;
+    grid-template-rows: 50px repeat(3, auto);
+    grid-template-columns: 0.75fr 1.25fr;
+
+    place-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    height: 100%;
+
+    & > * {
+      height: inherit;
+    }
+  }
+
+  .skeleton {
+    &_1 {
+      grid-area: 1 / 1 / 2 / 3;
+      height: fit-content;
+      height: 50px;
+
+      & > * {
+        margin: 0 auto;
+      }
+    }
+
+    &_6 {
+      grid-area: 2 / 2 / 5 / 3;
     }
   }
 }
