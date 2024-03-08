@@ -61,9 +61,9 @@
           :project-id="project.id"
           @update:member-removed="(i) => project?.users.splice(i, 1)"
         >
-          <template #activator="{ props: activatorProps }">
+          <template #activator="{ props: membersActivatorProps }">
             <v-btn
-              v-bind="activatorProps"
+              v-bind="membersActivatorProps"
               prepend-icon="mdi-account-multiple"
               size="small"
               rounded="pill"
@@ -74,15 +74,20 @@
             </v-btn>
           </template>
         </project-members>
-        <v-btn
-          prepend-icon="mdi-information"
-          size="small"
-          rounded="pill"
-          color="secondary-darken-1"
-          flat
-        >
-          Detalhes
-        </v-btn>
+        <project-details :project>
+          <template #activator="{ props: detailsActivatorProp }">
+            <v-btn
+              v-bind="detailsActivatorProp"
+              prepend-icon="mdi-information"
+              size="small"
+              rounded="pill"
+              color="secondary-darken-1"
+              flat
+            >
+              Detalhes
+            </v-btn>
+          </template>
+        </project-details>
         <v-btn
           prepend-icon="mdi-web"
           size="small"
