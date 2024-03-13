@@ -4,7 +4,6 @@
     timeout="10000"
     class="snackbar"
     absolute
-    variant="text"
   >
     <div class="snackbar__content">
       <div

@@ -72,7 +72,6 @@
                   v-bind="activatorProps"
                   icon="mdi-trash-can"
                   class="text-primary"
-                  variant="text"
                   :disabled="store.loading"
                 />
               </template>

@@ -27,7 +27,6 @@
             icon="mdi-account-remove"
             class="text-error"
             :disabled="!canUpdate(member) || store.loading"
-            variant="text"
             @click="() => removeMember(member.id, index)"
           />
         </card-wrapper>

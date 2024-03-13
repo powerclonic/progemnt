@@ -12,23 +12,18 @@
     </template>
     <template #append>
       <div v-if="!store.isAuthenticated" class="app-bar__buttons">
-        <the-button size="small" @click="$router.push('/signin')">
+        <v-btn-darker size="small" @click="$router.push('/signin')">
           entrar
-        </the-button>
-        <the-button
-          class="ms-2"
-          size="small"
-          colorful
-          @click="$router.push('/signup')"
-        >
+        </v-btn-darker>
+        <v-btn class="ms-2" size="small" @click="$router.push('/signup')">
           cadastro
-        </the-button>
+        </v-btn>
       </div>
       <div v-else class="app-bar__buttons">
-        <the-button size="small" @click="$router.push('/dashboard')">
+        <v-btn-darker size="small" @click="$router.push('/dashboard')">
           dashboard
-        </the-button>
-        <the-button
+        </v-btn-darker>
+        <v-btn
           class="ms-2"
           size="small"
           colorful
@@ -36,7 +31,7 @@
           @click="$router.push('/account')"
         >
           olá, {{ store.user_name.split(" ")[0] }}
-        </the-button>
+        </v-btn>
       </div>
     </template>
     <template #extension>

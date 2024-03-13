@@ -8,4 +8,5 @@
 @use "vuetify/settings" with ($button-border-radius: 10px,
   $overlay-scrim-background: rgba(0, 0, 0, 75%),
   $snackbar-content-padding: 0px,
-  $skeleton-loader-image-height: 100%);
+  $skeleton-loader-image-height: 100%,
+  $button-font-weight: 700);

@@ -10,6 +10,7 @@ import "vuetify/styles";
 
 // Composables
 import { createVuetify } from "vuetify";
+import { VBtn } from "vuetify/components/VBtn";
 
 const defaultTheme = {
   dark: true,
@@ -34,6 +35,10 @@ export default createVuetify({
       defaultTheme,
     },
   },
+  aliases: {
+    VBtnDark: VBtn,
+    VBtnDarker: VBtn,
+  },
   defaults: {
     VDialog: {
       VTextField: {
@@ -48,6 +53,28 @@ export default createVuetify({
         bgColor: "secondary-darken-1",
         rounded: "lg",
       },
+    },
+    VToolbar: {
+      VBtn: {
+        variant: "flat",
+        color: "primary",
+        class: "text-secondary-darken-1",
+      },
+    },
+    VBtn: {
+      variant: "flat",
+      color: "primary",
+      class: "text-secondary-darken-1",
+    },
+    VBtnDark: {
+      variant: "flat",
+      color: "secondary-darken-1",
+      class: "text-primary",
+    },
+    VBtnDarker: {
+      variant: "flat",
+      color: "secondary-darken-2",
+      class: "text-primary",
     },
   },
 });
