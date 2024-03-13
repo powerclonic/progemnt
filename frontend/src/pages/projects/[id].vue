@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="newTaskDialog" class="dialog">
-    <card-wrapper class="dialog__body elevation-8">
+    <v-sheet class="dialog__body elevation-8">
       <h2 class="dialog__title">Nova tarefa</h2>
       <v-form @submit.prevent="sendTaskForm">
         <v-text-field
@@ -8,14 +8,12 @@
           label="Título"
           variant="solo-filled"
           bg-color="secondary-darken-1"
-          rounded="lg"
         />
         <v-text-field
           v-model="taskModel.description"
           variant="solo-filled"
           bg-color="secondary-darken-1"
           label="Descrição"
-          rounded="lg"
         />
         <v-text-field
           v-model="taskModel.deadline"
@@ -23,28 +21,19 @@
           variant="solo-filled"
           bg-color="secondary-darken-1"
           type="date"
-          rounded="lg"
         />
         <v-select
           v-model="taskModel.responsible"
           variant="solo-filled"
           bg-color="secondary-darken-1"
           label="Responsável"
-          rounded="lg"
           :items="taskResponsibles"
         />
-        <the-button
-          flat
-          block
-          colorful
-          type="submit"
-          :disabled="store.loading"
-          :loading="store.loading"
-        >
+        <v-btn flat block type="submit" :disabled="store.loading">
           criar
-        </the-button>
+        </v-btn>
       </v-form>
-    </card-wrapper>
+    </v-sheet>
   </v-dialog>
   <v-container v-if="project" class="app-body">
     <div class="title">
@@ -53,7 +42,7 @@
         {{ project.title }}
       </h1>
     </div>
-    <card-wrapper class="configs">
+    <v-sheet class="configs">
       <h3>Configurações do projeto</h3>
       <div class="configs__buttons">
         <project-members
@@ -62,59 +51,50 @@
           @update:member-removed="(i) => project?.users.splice(i, 1)"
         >
           <template #activator="{ props: membersActivatorProps }">
-            <v-btn
+            <v-btn-chip
               v-bind="membersActivatorProps"
               prepend-icon="mdi-account-multiple"
               size="small"
               rounded="pill"
-              color="secondary-darken-1"
               flat
             >
               Membros
-            </v-btn>
+            </v-btn-chip>
           </template>
         </project-members>
         <project-details :project>
           <template #activator="{ props: detailsActivatorProp }">
-            <v-btn
+            <v-btn-chip
               v-bind="detailsActivatorProp"
               prepend-icon="mdi-information"
               size="small"
               rounded="pill"
-              color="secondary-darken-1"
               flat
             >
               Detalhes
-            </v-btn>
+            </v-btn-chip>
           </template>
         </project-details>
-        <v-btn
-          prepend-icon="mdi-web"
-          size="small"
-          rounded="pill"
-          color="secondary-darken-1"
-          flat
-        >
+        <v-btn-chip prepend-icon="mdi-web" size="small" rounded="pill" flat>
           Visibilidade
-        </v-btn>
-        <v-btn
+        </v-btn-chip>
+        <v-btn-chip
           prepend-icon="mdi-clipboard"
           size="small"
           rounded="pill"
-          color="secondary-darken-1"
           flat
         >
           Alterações
-        </v-btn>
+        </v-btn-chip>
       </div>
-    </card-wrapper>
-    <card-wrapper class="description">
+    </v-sheet>
+    <v-sheet class="description">
       <h3>Descrição do projeto</h3>
       <p class="description__text">
         {{ project.description }}
       </p>
-    </card-wrapper>
-    <card-wrapper class="details">
+    </v-sheet>
+    <v-sheet class="details">
       <h3>Detalhes do projeto</h3>
       <div class="details__chips">
         <v-chip prepend-icon="mdi-account">
@@ -135,8 +115,8 @@
         </v-chip>
         <v-chip prepend-icon="mdi-list-status"> 0/0 tarefas </v-chip>
       </div>
-    </card-wrapper>
-    <card-wrapper class="tasks">
+    </v-sheet>
+    <v-sheet class="tasks">
       <div class="tasks__title">
         <div class="tasks__title-left">
           <h2>Tarefas</h2>
@@ -148,7 +128,7 @@
         </button>
       </div>
       <div class="tasks__container">
-        <card-wrapper
+        <v-sheet-lighter
           v-for="(task, index) in project.tasks"
           :key="index"
           class="task-card"
@@ -176,9 +156,9 @@
               v-bind="getStatusConfig(task.status)"
             />
           </div>
-        </card-wrapper>
+        </v-sheet-lighter>
       </div>
-    </card-wrapper>
+    </v-sheet>
   </v-container>
   <v-container v-else class="skeleton-container">
     <div class="skeleton_1">

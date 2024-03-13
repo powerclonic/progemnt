@@ -5,8 +5,11 @@
  */
 
 // https://vuetifyjs.com/features/sass-variables/`
-@use "vuetify/settings" with ($button-border-radius: 10px,
-  $overlay-scrim-background: rgba(0, 0, 0, 75%),
-  $snackbar-content-padding: 0px,
+@use "vuetify/settings" with (
   $skeleton-loader-image-height: 100%,
-  $button-font-weight: 700);
+
+  $button-font-weight: 700,
+  $button-colored-disabled: false,
+
+  $border-radius-root: 0.5rem
+);

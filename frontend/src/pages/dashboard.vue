@@ -2,7 +2,7 @@
   <v-container>
     <div class="app-body">
       <h1 class="text-center app-body__title">Dashboard</h1>
-      <card-wrapper class="projects-container">
+      <v-sheet class="projects-container">
         <h2>Mais recentes</h2>
         <div v-if="dashboardData" class="projects">
           <div
@@ -27,53 +27,40 @@
             </div>
           </div>
         </div>
-      </card-wrapper>
-      <card-wrapper class="projects-container projects-container--flex">
+      </v-sheet>
+      <v-sheet class="projects-container projects-container--flex">
         <h2>Todos projetos</h2>
-        <v-btn
-          color="secondary-darken-1"
-          flat
-          prepend-icon="mdi-web"
-          rounded="pill"
-        >
-          Todos os projetos
-        </v-btn>
-        <div>
-          <v-btn
-            color="secondary-darken-1"
-            flat
-            prepend-icon="mdi-account"
-            rounded="pill"
-            size="small"
-            class="me-2"
-          >
-            Meus
-          </v-btn>
-          <v-btn
-            color="secondary-darken-1"
-            flat
-            prepend-icon="mdi-account-multiple"
-            rounded="pill"
-            size="small"
-            class="me-2"
-          >
-            De outros
-          </v-btn>
-          <v-btn
-            color="secondary-darken-1"
-            flat
-            prepend-icon="mdi-star"
-            rounded="pill"
-            size="small"
-          >
-            Favoritos
-          </v-btn>
-        </div>
-      </card-wrapper>
+        <v-container class="px-0">
+          <v-row>
+            <v-col>
+              <v-btn-chip prepend-icon="mdi-web">
+                Todos os projetos
+              </v-btn-chip>
+            </v-col>
+          </v-row>
+          <v-row dense>
+            <v-col cols="auto">
+              <v-btn-chip prepend-icon="mdi-account" size="small">
+                Meus
+              </v-btn-chip>
+            </v-col>
+            <v-col cols="auto">
+              <v-btn-chip prepend-icon="mdi-account-multiple" size="small">
+                De outros
+              </v-btn-chip>
+            </v-col>
+            <v-col cols="auto">
+              <v-btn-chip prepend-icon="mdi-star" size="small">
+                Favoritos
+              </v-btn-chip>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-sheet>
       <button class="app-body__button" @click="$router.push('/projects/new')">
         <v-icon icon="mdi-plus" color="primary" /> Novo projeto
       </button>
-      <card-wrapper class="projects-container">
+      <v-sheet class="projects-container">
         <h2>Recém atualizados</h2>
         <div v-if="dashboardData" class="projects">
           <div
@@ -106,15 +93,15 @@
             </div>
           </div>
         </div>
-      </card-wrapper>
-      <card-wrapper class="projects-container projects-container--flex">
+      </v-sheet>
+      <v-sheet class="projects-container projects-container--flex">
         <h2>Estatísticas</h2>
         <div v-if="dashboardData">
           <p>Total: {{ dashboardData.stats.total }}</p>
           <p>Em andamento: {{ dashboardData.stats.in_progress }}</p>
           <p>Finalizados: {{ dashboardData.stats.finished }}</p>
         </div>
-      </card-wrapper>
+      </v-sheet>
     </div>
   </v-container>
 </template>
@@ -132,8 +119,6 @@ const getDashboardData = async () => {
     const res = await userDashboardData();
 
     dashboardData.value = res.data.data;
-
-    console.log(dashboardData.value);
   } catch (error) {
     //
   }

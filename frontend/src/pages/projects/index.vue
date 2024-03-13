@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <h2 class="text-center my-2">Projetos</h2>
-    <card-wrapper class="filter">
+    <v-sheet class="filter">
       <h2>Filtrar por:</h2>
       <v-chip-group v-model="filterSelect" selected-class="bg-primary" column>
         <v-chip prepend-icon="mdi-web" value="all"> Todos </v-chip>
@@ -11,9 +11,9 @@
         </v-chip>
         <v-chip prepend-icon="mdi-star" value="favs"> Favoritos </v-chip>
       </v-chip-group>
-    </card-wrapper>
+    </v-sheet>
     <div v-if="projects" class="projects">
-      <card-wrapper
+      <v-sheet
         v-for="(project, index) in projects"
         :key="index"
         class="projects__card"
@@ -42,7 +42,7 @@
             </v-chip>
           </div>
         </button>
-      </card-wrapper>
+      </v-sheet>
       <button @click="$router.push('/projects/new')">
         <v-icon icon="mdi-plus" color="primary" /> Novo projeto
       </button>
@@ -82,8 +82,6 @@ const getData = async () => {
     const res = await userProjects();
 
     projects.value = res.data.data;
-
-    console.log(projects.value);
   } catch (error) {
     //
   }

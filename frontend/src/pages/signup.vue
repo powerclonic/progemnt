@@ -1,6 +1,6 @@
 <template>
   <v-container class="app-body">
-    <card-wrapper class="app-form">
+    <v-sheet class="app-form">
       <v-form
         v-model="form"
         validate-on="input"
@@ -14,7 +14,6 @@
           label="nome completo"
           variant="solo-filled"
           bg-color="secondary-darken-1"
-          rounded="lg"
           type="text"
           autocomplete="name"
           :rules="[rules.required, rules.nameFormat, rules.nameLength]"
@@ -24,7 +23,6 @@
           label="nome de usuário"
           variant="solo-filled"
           bg-color="secondary-darken-1"
-          rounded="lg"
           type="text"
           autocomplete="name"
           :rules="[rules.required, rules.usernameFormat, rules.usernameLength]"
@@ -34,7 +32,6 @@
           label="e-mail"
           variant="solo-filled"
           bg-color="secondary-darken-1"
-          rounded="lg"
           type="email"
           autocomplete="name"
           :rules="[rules.required, rules.emailFormat, rules.maxLength]"
@@ -44,7 +41,6 @@
           label="senha"
           variant="solo-filled"
           bg-color="secondary-darken-1"
-          rounded="lg"
           type="password"
           autocomplete="current-password"
           :rules="[rules.required, rules.passwordFormat]"
@@ -54,22 +50,14 @@
           label="confirmar senha"
           variant="solo-filled"
           bg-color="secondary-darken-1"
-          rounded="lg"
           type="password"
           :rules="[rules.required, rules.equal]"
         />
-        <the-button
-          colorful
-          flat
-          block
-          type="submit"
-          :disabled="!form || store.loading"
-          :loading="store.loading"
-        >
+        <v-btn flat block type="submit" :disabled="!form || store.loading">
           cadastrar
-        </the-button>
+        </v-btn>
       </v-form>
-    </card-wrapper>
+    </v-sheet>
   </v-container>
 </template>
 

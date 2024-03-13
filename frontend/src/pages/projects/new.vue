@@ -6,7 +6,7 @@
       :disabled="store.loading"
       @submit.prevent="sendForm"
     >
-      <card-wrapper class="input-card">
+      <v-sheet class="input-card">
         <p class="input-card__label">Título</p>
         <v-text-field
           v-model="title"
@@ -14,8 +14,8 @@
           bg-color="secondary-darken-1"
           placeholder="Sistema de estoque..."
         />
-      </card-wrapper>
-      <card-wrapper class="input-card">
+      </v-sheet>
+      <v-sheet class="input-card">
         <p class="input-card__label">Prazo para conclusão</p>
         <v-text-field
           v-model="deadline"
@@ -24,8 +24,8 @@
           placeholder="Sistema de estoque..."
           type="date"
         />
-      </card-wrapper>
-      <card-wrapper class="input-card app-form__div1">
+      </v-sheet>
+      <v-sheet class="input-card app-form__div1">
         <p class="input-card__label">Descrição</p>
         <v-textarea
           v-model="description"
@@ -35,8 +35,8 @@
           max="4096"
           counter
         />
-      </card-wrapper>
-      <card-wrapper class="input-card">
+      </v-sheet>
+      <v-sheet class="input-card">
         <p class="input-card__label">Visibilidade</p>
         <v-select
           v-model="visibility"
@@ -45,18 +45,17 @@
           :items="visibilityValues"
           selected="Convidados"
         />
-      </card-wrapper>
-      <the-button
+      </v-sheet>
+      <v-btn
         flat
         block
         size="xl"
         class="h-100"
         type="submit"
-        :loading="store.loading"
         :disabled="store.loading"
       >
         Criar projeto
-      </the-button>
+      </v-btn>
     </v-form>
   </v-container>
 </template>

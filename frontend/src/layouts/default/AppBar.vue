@@ -1,45 +1,52 @@
 <template>
   <v-app-bar extension-height="4" flat>
     <template #prepend>
-      <router-link
-        :to="store.isAuthenticated ? '/dashboard' : '/'"
-        class="title"
-      >
-        <progemnt-logo class="title__image" />
+      <v-container class="pa-0">
+        <router-link :to="isAuthenticated ? '/dashboard' : '/'" class="title">
+          <progemnt-logo class="title__image" />
 
-        <p class="title__text">progemnt</p>
-      </router-link>
+          <p class="title__text d-none d-sm-inline">progemnt</p>
+        </router-link>
+      </v-container>
     </template>
     <template #append>
-      <div v-if="!store.isAuthenticated" class="app-bar__buttons">
-        <v-btn-darker size="small" @click="$router.push('/signin')">
-          entrar
-        </v-btn-darker>
-        <v-btn class="ms-2" size="small" @click="$router.push('/signup')">
-          cadastro
-        </v-btn>
-      </div>
-      <div v-else class="app-bar__buttons">
-        <v-btn-darker size="small" @click="$router.push('/dashboard')">
-          dashboard
-        </v-btn-darker>
-        <v-btn
-          class="ms-2"
-          size="small"
-          colorful
-          append-icon="mdi-account-circle"
-          @click="$router.push('/account')"
-        >
-          olá, {{ store.user_name.split(" ")[0] }}
-        </v-btn>
-      </div>
+      <v-container class="pa-0 fluid">
+        <v-row v-if="!isAuthenticated" dense>
+          <v-col>
+            <v-btn-darker size="small" @click="$router.push('/signin')">
+              entrar
+            </v-btn-darker>
+          </v-col>
+          <v-col>
+            <v-btn size="small" @click="$router.push('/signup')">
+              cadastro
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-row v-else dense>
+          <v-col>
+            <v-btn-darker size="small" @click="$router.push('/dashboard')">
+              dashboard
+            </v-btn-darker>
+          </v-col>
+          <v-col>
+            <v-btn
+              size="small"
+              append-icon="mdi-account-circle"
+              @click="$router.push('/account')"
+            >
+              olá, {{ user_name.split(" ")[0] }}
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-container>
     </template>
     <template #extension>
       <v-progress-linear
-        v-if="store.loading"
+        v-if="loading"
         indeterminate
         color="primary"
-        class="card-wrapper__loader"
+        class="v-sheet__loader"
       />
       <div v-else class="bar-border" />
     </template>
@@ -48,8 +55,9 @@
 
 <script lang="ts" setup>
 import { useAppStore } from "@/store/app";
+import { storeToRefs } from "pinia";
 
-const store = useAppStore();
+const { loading, isAuthenticated, user_name } = storeToRefs(useAppStore());
 </script>
 
 <style scoped lang="scss">

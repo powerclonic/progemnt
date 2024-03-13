@@ -24,8 +24,6 @@ router.beforeEach((to, from, next) => {
     next("/signin");
   }
 
-  console.log(to);
-
   next();
 });
 

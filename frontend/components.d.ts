@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     CardWrapper: typeof import('./src/components/CardWrapper.vue')['default']
+    ConfirmAction: typeof import('./src/components/dialogs/ConfirmAction.vue')['default']
     FlashMessage: typeof import('./src/components/FlashMessage.vue')['default']
     ProgemntLogo: typeof import('./src/components/ProgemntLogo.vue')['default']
     ProjectChanges: typeof import('./src/components/dialogs/ProjectChanges.vue')['default']

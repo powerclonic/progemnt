@@ -10,7 +10,7 @@ import "vuetify/styles";
 
 // Composables
 import { createVuetify } from "vuetify";
-import { VBtn } from "vuetify/components/VBtn";
+import { VSheet, VBtn } from "vuetify/lib/components/index.mjs";
 
 const defaultTheme = {
   dark: true,
@@ -22,8 +22,11 @@ const defaultTheme = {
     "secondary-darken-1": "#262626",
     "secondary-darken-2": "#1B1B1E",
     white: "#FBFBFB",
-    warning: "#FFBB22",
-    error: "#FF6060",
+
+    info: "#0f96f5",
+    sucess: "#007700",
+    warning: "#dd9900",
+    error: "#ff6c6c",
   },
 };
 
@@ -38,6 +41,9 @@ export default createVuetify({
   aliases: {
     VBtnDark: VBtn,
     VBtnDarker: VBtn,
+    VBtnChip: VBtn,
+
+    VSheetLighter: VSheet,
   },
   defaults: {
     VDialog: {
@@ -45,20 +51,22 @@ export default createVuetify({
         variant: "solo-filled",
         density: "comfortable",
         bgColor: "secondary-darken-1",
-        rounded: "lg",
       },
       VSelect: {
         variant: "solo-filled",
         density: "comfortable",
         bgColor: "secondary-darken-1",
-        rounded: "lg",
       },
     },
+
     VToolbar: {
       VBtn: {
         variant: "flat",
-        color: "primary",
-        class: "text-secondary-darken-1",
+      },
+    },
+    VCardActions: {
+      VBtn: {
+        variant: "flat",
       },
     },
     VBtn: {
@@ -75,6 +83,23 @@ export default createVuetify({
       variant: "flat",
       color: "secondary-darken-2",
       class: "text-primary",
+    },
+    VBtnChip: {
+      variant: "flat",
+      color: "secondary-darken-1",
+      class: "text-white",
+      rounded: "pill",
+    },
+
+    VSheet: {
+      rounded: true,
+      color: "secondary-darken-2",
+      class: "pa-2",
+    },
+    VSheetLighter: {
+      rounded: true,
+      color: "secondary-darken-1",
+      class: "pa-2",
     },
   },
 });

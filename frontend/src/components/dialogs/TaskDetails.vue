@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" :activator="activator" scrollable>
     <v-card>
-      <card-wrapper class="card">
+      <v-sheet class="card">
         <v-form @submit.prevent="sendForm">
           <h2>Detalhes da tarefa</h2>
           <div class="card__info">
@@ -55,55 +55,20 @@
             </div>
           </div>
           <div class="card__buttons">
-            <the-button
-              colorful
-              type="submit"
-              :loading="store.loading"
-              :disabled="store.loading"
-            >
-              ATUALIZAR
-            </the-button>
-            <v-dialog
-              v-model="confirmDialog"
-              transition="dialog-bottom-transition"
-            >
+            <v-btn type="submit" :disabled="store.loading"> ATUALIZAR </v-btn>
+            <confirm-action @confirm="removeTask">
               <template #activator="{ props: activatorProps }">
-                <v-btn
+                <v-btn-darker
                   v-bind="activatorProps"
                   icon="mdi-trash-can"
                   class="text-primary"
                   :disabled="store.loading"
                 />
               </template>
-              <template #default="{ isActive }">
-                <card-wrapper class="confirm">
-                  <h2 class="confirm__title">Tem certeza?</h2>
-                  <p class="confirm__subtitle">
-                    Ao excluir uma tarefa, você não poderá restaurá-la
-                  </p>
-                  <div class="confirm__buttons">
-                    <the-button
-                      lighter
-                      :loading="store.loading"
-                      :disabled="store.loading"
-                      @click="removeTask"
-                    >
-                      EXCLUIR
-                    </the-button>
-                    <the-button
-                      colorful
-                      :disabled="store.loading"
-                      @click="isActive.value = false"
-                    >
-                      CANCELAR
-                    </the-button>
-                  </div>
-                </card-wrapper>
-              </template>
-            </v-dialog>
+            </confirm-action>
           </div>
         </v-form>
-      </card-wrapper>
+      </v-sheet>
     </v-card>
   </v-dialog>
 </template>

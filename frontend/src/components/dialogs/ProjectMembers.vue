@@ -4,9 +4,9 @@
       <slot name="activator" :props="activatorProps" />
     </template>
     <v-card class="container">
-      <card-wrapper loader class="card">
+      <v-sheet loader class="card">
         <h2>Membros do projeto</h2>
-        <card-wrapper
+        <v-sheet
           v-for="(member, index) in members"
           :key="index"
           class="card__member"
@@ -16,32 +16,31 @@
           <v-select
             v-model="member.permission"
             class="card__select"
-            rounded
             hide-details
             density="compact"
             :items="getItems(member)"
             :disabled="!canUpdate(member) || store.loading"
             @update:model-value="(val: number) => updateMember(member, val)"
           />
-          <v-btn
+          <v-btn-darker
             icon="mdi-account-remove"
             class="text-error"
             :disabled="!canUpdate(member) || store.loading"
             @click="() => removeMember(member.id, index)"
           />
-        </card-wrapper>
+        </v-sheet>
         <v-dialog v-model="addMemberDialog">
           <template #activator="{ props: addMemberProps }">
-            <the-button
+            <v-btn-dark
               v-bind="addMemberProps"
               prepend-icon="mdi-plus"
               block
               :disabled="userPermission <= 2"
             >
               Adicionar
-            </the-button>
+            </v-btn-dark>
           </template>
-          <card-wrapper class="card add-member">
+          <v-sheet class="card add-member">
             <v-form @submit.prevent="addMember">
               <div>
                 <p>Nome de usuário ou e-mail</p>
@@ -51,19 +50,13 @@
                   required
                 />
               </div>
-              <the-button
-                colorful
-                block
-                type="submit"
-                :disabled="store.loading"
-                :loading="store.loading"
-              >
+              <v-btn block type="submit" :disabled="store.loading">
                 ADICIONAR
-              </the-button>
+              </v-btn>
             </v-form>
-          </card-wrapper>
+          </v-sheet>
         </v-dialog>
-      </card-wrapper>
+      </v-sheet>
     </v-card>
   </v-dialog>
 </template>

@@ -4,7 +4,7 @@
       <slot name="activator" :props="activatorProps" />
     </template>
     <v-sheet>
-      <card-wrapper>
+      <v-sheet>
         <v-form :disabled="store.loading" @submit.prevent="sendForm">
           <h2>Detalhes do projeto</h2>
           <div class="card-info">
@@ -19,16 +19,9 @@
             <p>Link</p>
             <v-text-field :model-value="projectLink" readonly />
           </div>
-          <the-button
-            colorful
-            block
-            :loading="store.loading"
-            :disabled="store.loading"
-            type="submit"
-            >Atualizar</the-button
-          >
+          <v-btn block :disabled="store.loading" type="submit">Atualizar</v-btn>
         </v-form>
-      </card-wrapper>
+      </v-sheet>
     </v-sheet>
   </v-dialog>
 </template>

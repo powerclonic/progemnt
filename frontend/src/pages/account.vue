@@ -7,37 +7,34 @@
       validate-on="input"
       @submit.prevent="updateUser"
     >
-      <card-wrapper class="app-card">
+      <v-sheet class="app-card">
         <h2>Nome</h2>
         <v-text-field
           :value="store.user_name"
           variant="solo-filled"
           bg-color="secondary-darken-1"
           readonly
-          rounded="lg"
         />
-      </card-wrapper>
-      <card-wrapper class="app-card">
+      </v-sheet>
+      <v-sheet class="app-card">
         <h2>Nome de usuário</h2>
         <v-text-field
           :value="username"
           variant="solo-filled"
           bg-color="secondary-darken-1"
-          rounded="lg"
           readonly
         />
-      </card-wrapper>
-      <card-wrapper class="app-card">
+      </v-sheet>
+      <v-sheet class="app-card">
         <h2>E-mail</h2>
         <v-text-field
           :value="email"
           variant="solo-filled"
           bg-color="secondary-darken-1"
-          rounded="lg"
           readonly
         />
-      </card-wrapper>
-      <card-wrapper class="app-card div1">
+      </v-sheet>
+      <v-sheet class="app-card div1">
         <h2>Senha</h2>
         <v-text-field
           v-model="curPassword"
@@ -46,7 +43,6 @@
           bg-color="secondary-darken-1"
           type="password"
           label="senha atual"
-          rounded="lg"
           :rules="[rules.required, rules.maxLength]"
         />
         <v-text-field
@@ -56,7 +52,6 @@
           bg-color="secondary-darken-1"
           label="nova senha"
           type="password"
-          rounded="lg"
           :rules="[rules.required, rules.maxLength, rules.passwordFormat]"
         />
         <v-text-field
@@ -66,32 +61,18 @@
           bg-color="secondary-darken-1"
           type="password"
           label="confirmar senha"
-          rounded="lg"
           :rules="[rules.required, rules.maxLength, rules.equal]"
         />
-        <the-button
-          colorful
-          flat
-          block
-          type="submit"
-          :loading="store.loading"
-          :disabled="store.loading || !form"
-        >
+        <v-btn block type="submit" :disabled="store.loading || !form">
           atualizar
-        </the-button>
-      </card-wrapper>
-      <the-button
-        colorful
-        flat
-        block
-        class="action-btn"
-        @click="destroySession"
-      >
+        </v-btn>
+      </v-sheet>
+      <v-btn flat block class="action-btn" @click="destroySession">
         encerrar sessão
-      </the-button>
-      <the-button block class="action-btn" disabled @click="deleteAccount">
+      </v-btn>
+      <v-btn-darker block class="action-btn" disabled @click="deleteAccount">
         deletar conta
-      </the-button>
+      </v-btn-darker>
     </v-form>
   </v-container>
 </template>
