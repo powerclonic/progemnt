@@ -16,6 +16,7 @@ export type Project = {
   title: string;
   description: string;
   deadline: string;
+  visibility: number;
   users: Array<ProjectUser>;
   tasks: Array<any>;
   created_at: string;

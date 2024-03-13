@@ -19,6 +19,7 @@ class ProjectResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'deadline' => $this->deadline,
+            'visibility' => $this->visibility,
             'users' => $this->users()
                 ->get(['users.id', 'name'])
                 ->each(function ($user) {

@@ -65,6 +65,15 @@ axiosInstance.interceptors.response.use(
         useFlashStore().setMessage(data, "error");
         break;
       }
+      case 403: {
+        router.push("/dashboard");
+        useFlashStore().setMessage(
+          "Seu nível de permissão neste projeto não permite esta ação.",
+          "warning",
+          true,
+        );
+        break;
+      }
       case 422: {
         useFlashStore().setMessage(data.message, "error");
         break;

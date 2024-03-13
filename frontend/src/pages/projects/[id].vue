@@ -22,13 +22,25 @@
           bg-color="secondary-darken-1"
           type="date"
         />
-        <v-select
-          v-model="taskModel.responsible"
-          variant="solo-filled"
-          bg-color="secondary-darken-1"
-          label="Responsável"
-          :items="taskResponsibles"
-        />
+        <v-row dense>
+          <v-col>
+            <v-select
+              v-model="taskModel.responsible"
+              variant="solo-filled"
+              bg-color="secondary-darken-1"
+              label="Responsável"
+              :items="taskResponsibles"
+            />
+          </v-col>
+          <v-col cols="auto">
+            <v-btn
+              icon="mdi-account-plus"
+              variant="plain"
+              color="sucess"
+              @click="taskModel.responsible = store.user_id"
+            />
+          </v-col>
+        </v-row>
         <v-btn flat block type="submit" :disabled="store.loading">
           criar
         </v-btn>
@@ -63,9 +75,9 @@
           </template>
         </project-members>
         <project-details :project>
-          <template #activator="{ props: detailsActivatorProp }">
+          <template #activator="{ props: detailsActivatorProps }">
             <v-btn-chip
-              v-bind="detailsActivatorProp"
+              v-bind="detailsActivatorProps"
               prepend-icon="mdi-information"
               size="small"
               rounded="pill"
@@ -75,9 +87,19 @@
             </v-btn-chip>
           </template>
         </project-details>
-        <v-btn-chip prepend-icon="mdi-web" size="small" rounded="pill" flat>
-          Visibilidade
-        </v-btn-chip>
+        <project-visibility :project>
+          <template #activator="{ props: visibilityActivatorProps }">
+            <v-btn-chip
+              v-bind="visibilityActivatorProps"
+              prepend-icon="mdi-web"
+              size="small"
+              rounded="pill"
+              flat
+            >
+              Visibilidade
+            </v-btn-chip>
+          </template>
+        </project-visibility>
         <v-btn-chip
           prepend-icon="mdi-clipboard"
           size="small"

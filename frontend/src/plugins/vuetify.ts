@@ -87,7 +87,7 @@ export default createVuetify({
     VBtnChip: {
       variant: "flat",
       color: "secondary-darken-1",
-      class: "text-white",
+      class: "text-white font-weight-regular ",
       rounded: "pill",
     },
 
