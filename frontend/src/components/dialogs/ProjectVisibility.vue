@@ -61,9 +61,8 @@ const items = [
   },
 ];
 
-const userLevel = props.project.users.find(
-  (u) => u.id === store.user_id,
-)?.permission;
+const userLevel =
+  props.project.users.find((u) => u.id === store.user_id)?.permission ?? 1;
 
 const isActive = ref(false);
 

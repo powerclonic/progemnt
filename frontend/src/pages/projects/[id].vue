@@ -100,14 +100,19 @@
             </v-btn-chip>
           </template>
         </project-visibility>
-        <v-btn-chip
-          prepend-icon="mdi-clipboard"
-          size="small"
-          rounded="pill"
-          flat
-        >
-          Alterações
-        </v-btn-chip>
+        <project-changes :project>
+          <template #activator="{ props: changesActivatorProps }">
+            <v-btn-chip
+              v-bind="changesActivatorProps"
+              prepend-icon="mdi-clipboard"
+              size="small"
+              rounded="pill"
+              disabled
+            >
+              Alterações
+            </v-btn-chip>
+          </template>
+        </project-changes>
       </div>
     </v-sheet>
     <v-sheet class="description">
@@ -201,7 +206,7 @@ import { useRoute } from "vue-router/auto";
 
 import { formatDistance, format } from "date-fns";
 import { ptBR } from "date-fns/locale/pt-BR";
-import { Project } from "@/types";
+import { Project, BareTask } from "@/types";
 import { useAppStore } from "@/store/app";
 import { useFlashStore } from "@/store/flash";
 import { computed } from "vue";
@@ -220,12 +225,7 @@ const project: Ref<Project | null> = ref(null);
 const newTaskDialog: Ref<boolean> = ref(false);
 
 //* Task v-models
-const taskModel = ref({
-  title: "",
-  deadline: null,
-  responsible: null,
-  description: null,
-});
+const taskModel: Ref<BareTask> = ref({} as BareTask);
 
 const taskResponsibles = computed(() => {
   if (!project.value) return;
@@ -299,8 +299,10 @@ const getData = async () => {
 };
 
 const sendTaskForm = async () => {
+  if (!project.value) return;
+
   try {
-    await createTask(project.value?.id, taskModel.value);
+    await createTask(project.value.id, taskModel.value);
 
     taskModel.value = {
       title: "",

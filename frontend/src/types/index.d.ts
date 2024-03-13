@@ -12,7 +12,7 @@ export type UpdateUserData = {
 };
 
 export type Project = {
-  id: int;
+  id: number;
   title: string;
   description: string;
   deadline: string;
@@ -24,7 +24,19 @@ export type Project = {
 };
 
 export type ProjectUser = {
-  id: int;
+  id: number;
   name: string;
-  permission: int;
+  permission: number;
+};
+
+export type BareTask = {
+  title: string;
+  description: null | string;
+  deadline: null | string;
+  responsible: null | number;
+};
+
+export type Task = BareTask & {
+  id: number;
+  status: 1 | 2 | 3 | 4;
 };
