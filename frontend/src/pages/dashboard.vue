@@ -1,31 +1,19 @@
 <template>
-  <v-container>
+  <v-container class="h-100">
     <div class="app-body">
       <h1 class="text-center app-body__title">Dashboard</h1>
       <v-sheet class="projects-container">
         <h2>Mais recentes</h2>
         <div v-if="dashboardData" class="projects">
-          <div
+          <project-card-preview
             v-for="(project, index) in dashboardData.last_opened"
             :key="index"
-            class="projects__card"
-          >
-            <div class="card__title">
-              <p>
-                {{ project.title }}
-              </p>
-              <router-link :to="`/projects/${project.id}`">
-                acessar >
-              </router-link>
-            </div>
-            <div class="card__infos">
-              <p>
-                Prazo:
-                {{ new Date(project.deadline).toLocaleDateString("pt-BR") }}
-              </p>
-              <p>0/0 tarefas concluídas</p>
-            </div>
-          </div>
+            :project
+            info="0 de 0 tarefas completadas"
+          />
+        </div>
+        <div v-else class="projects">
+          <project-card-preview-loader v-for="i in 3" :key="i" />
         </div>
       </v-sheet>
       <v-sheet class="projects-container projects-container--flex">
@@ -63,35 +51,15 @@
       <v-sheet class="projects-container">
         <h2>Recém atualizados</h2>
         <div v-if="dashboardData" class="projects">
-          <div
+          <project-card-preview
             v-for="(project, index) in dashboardData.last_updated"
             :key="index"
-            class="projects__card"
-          >
-            <div class="card__title">
-              <p>
-                {{ project.title }}
-              </p>
-              <router-link :to="`/projects/${project.id}`">
-                acessar >
-              </router-link>
-            </div>
-            <div class="card__infos">
-              <p>
-                atualizado:
-                {{
-                  new Intl.DateTimeFormat("pt-br", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "2-digit",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  }).format(new Date(project.updated_at))
-                }}
-              </p>
-              <p>0/0 tarefas concluídas</p>
-            </div>
-          </div>
+            :project
+            :info="`atualizado em ${dateFormatter.format(new Date(project.updated_at))}`"
+          />
+        </div>
+        <div v-else class="projects">
+          <project-card-preview-loader v-for="i in 3" :key="i" />
         </div>
       </v-sheet>
       <v-sheet class="projects-container projects-container--flex">
@@ -111,6 +79,14 @@ import { userDashboardData } from "@/api";
 import { Ref } from "vue";
 import { onMounted } from "vue";
 import { ref } from "vue";
+
+const dateFormatter = new Intl.DateTimeFormat("pt-br", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+});
 
 const dashboardData: Ref<any> = ref(null);
 
@@ -135,6 +111,8 @@ onMounted(() => {
   grid-template-rows: auto;
   grid-template-columns: repeat(1, minmax(100px, 1fr));
   row-gap: 20px;
+
+  min-height: 100%;
 
   &__button {
     font-weight: bolder;
@@ -161,7 +139,7 @@ onMounted(() => {
   display: flex;
   overflow-x: scroll;
   gap: 10px;
-
+  height: calc(100% - 36px);
   &__card {
     min-width: 250px;
     background-color: rgb(var(--v-theme-secondary-darken-1));
@@ -207,7 +185,7 @@ onMounted(() => {
 @media screen and (min-width: 600px) {
   .app-body {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: repeat(4, 0.5fr);
+    grid-template-rows: auto 1fr auto 1fr;
     column-gap: 20px;
 
     &__button {

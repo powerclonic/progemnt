@@ -11,6 +11,8 @@ declare module 'vue' {
     ConfirmAction: typeof import('./src/components/dialogs/ConfirmAction.vue')['default']
     FlashMessage: typeof import('./src/components/FlashMessage.vue')['default']
     ProgemntLogo: typeof import('./src/components/ProgemntLogo.vue')['default']
+    ProjectCardPreview: typeof import('./src/components/ProjectCardPreview.vue')['default']
+    ProjectCardPreviewLoader: typeof import('./src/components/loaders/ProjectCardPreviewLoader.vue')['default']
     ProjectChanges: typeof import('./src/components/dialogs/ProjectChanges.vue')['default']
     ProjectDetails: typeof import('./src/components/dialogs/ProjectDetails.vue')['default']
     ProjectMembers: typeof import('./src/components/dialogs/ProjectMembers.vue')['default']
