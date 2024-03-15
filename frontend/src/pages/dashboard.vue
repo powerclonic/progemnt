@@ -185,7 +185,7 @@ onMounted(() => {
 @media screen and (min-width: 600px) {
   .app-body {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: auto 1fr auto 1fr;
+    grid-template-rows: auto 1fr minmax(256px, 1fr) 1fr;
     column-gap: 20px;
 
     &__button {

@@ -484,10 +484,10 @@ onMounted(() => {
   }
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 768px) {
   .app-body {
-    grid-template-columns: 0.75fr 1.25fr;
-    grid-template-rows: auto repeat(3, minmax(0, 1fr));
+    grid-template-columns: 40% 1fr;
+    grid-template-rows: auto auto 1fr auto;
     max-height: calc(100vh - 68px - 80px);
   }
 
