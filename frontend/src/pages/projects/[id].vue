@@ -332,7 +332,7 @@ onMounted(() => {
   grid-template-rows: auto;
   gap: 10px;
 
-  height: 100%;
+  min-height: 100%;
 }
 
 .title {
@@ -487,8 +487,7 @@ onMounted(() => {
 @media screen and (min-width: 768px) {
   .app-body {
     grid-template-columns: 40% 1fr;
-    grid-template-rows: auto auto 1fr auto;
-    max-height: calc(100vh - 68px - 80px);
+    grid-template-rows: auto auto minmax(128px, 1fr) auto;
   }
 
   .title {
@@ -532,7 +531,7 @@ onMounted(() => {
 
   .skeleton-container {
     display: grid;
-    grid-template-rows: 50px repeat(3, auto);
+    grid-template-rows: 50px 10% 1fr 20%;
     grid-template-columns: 0.75fr 1.25fr;
 
     place-items: center;

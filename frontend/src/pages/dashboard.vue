@@ -18,7 +18,7 @@
       </v-sheet>
       <v-sheet class="projects-container projects-container--flex">
         <h2>Todos projetos</h2>
-        <v-container class="px-0">
+        <v-container v-if="dashboardData" class="px-0">
           <v-row>
             <v-col>
               <v-btn-chip prepend-icon="mdi-web">
@@ -44,10 +44,19 @@
             </v-col>
           </v-row>
         </v-container>
+        <v-container v-else>
+          <v-skeleton-loader width="40%" color="transparent" type="heading" />
+          <v-skeleton-loader width="60%" color="transparent" type="chip@3" />
+        </v-container>
       </v-sheet>
-      <button class="app-body__button" @click="$router.push('/projects/new')">
-        <v-icon icon="mdi-plus" color="primary" /> Novo projeto
-      </button>
+      <v-btn-dark
+        :disabled="!dashboardData"
+        class="app-body__button text-white h-100"
+        prepend-icon="mdi-plus"
+        @click="$router.push('/projects/new')"
+      >
+        Novo projeto
+      </v-btn-dark>
       <v-sheet class="projects-container">
         <h2>Recém atualizados</h2>
         <div v-if="dashboardData" class="projects">
@@ -68,6 +77,9 @@
           <p>Total: {{ dashboardData.stats.total }}</p>
           <p>Em andamento: {{ dashboardData.stats.in_progress }}</p>
           <p>Finalizados: {{ dashboardData.stats.finished }}</p>
+        </div>
+        <div v-else class="w-100">
+          <v-skeleton-loader width="50%" type="text@3" color="transparent" />
         </div>
       </v-sheet>
     </div>
@@ -182,10 +194,10 @@ onMounted(() => {
   }
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 768px) {
   .app-body {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-template-rows: auto 1fr minmax(256px, 1fr) 1fr;
+    grid-template-rows: auto 1fr 128px 1fr;
     column-gap: 20px;
 
     &__button {
@@ -197,28 +209,6 @@ onMounted(() => {
 
       display: grid;
       place-content: center;
-    }
-  }
-
-  .projects {
-    & {
-      scrollbar-width: thin;
-      scrollbar-color: rgb(var(--v-theme-secondary))
-        rgb(var(--v-theme-secondary-darken-2));
-    }
-
-    &::-webkit-scrollbar {
-      height: 6px;
-      margin-top: 12px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: rgb(var(--v-theme-secondary-darken-2));
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: rgb(var(--v-theme-secondary));
-      border-radius: 10px;
     }
   }
 }

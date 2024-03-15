@@ -2,7 +2,7 @@
   <v-card
     min-width="45%"
     max-width="45%"
-    class="d-flex flex-column"
+    class="d-flex flex-column mb-3"
     link
     @click="
       $router.push({
@@ -15,7 +15,7 @@
       <v-card-subtitle>{{ info }} </v-card-subtitle>
     </v-card-item>
     <v-card-actions class="mt-auto">
-      <v-btn-darker block variant="plain" color="primary">
+      <v-btn-darker block variant="text" color="primary">
         Acessar projeto
       </v-btn-darker>
     </v-card-actions>
