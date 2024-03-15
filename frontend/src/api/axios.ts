@@ -20,7 +20,7 @@ axiosInstance.interceptors.request.use(
     if (useAppStore().isAuthenticated)
       request.headers.setAuthorization("Bearer " + useAppStore().access_token);
 
-    useFlashStore().unsetMesage();
+    useFlashStore().unsetMessage();
 
     return request;
   },

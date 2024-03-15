@@ -43,7 +43,7 @@
     </template>
     <template #extension>
       <v-progress-linear
-        v-if="loading"
+        v-if="$app.loading"
         indeterminate
         color="primary"
         class="v-sheet__loader"
@@ -57,7 +57,7 @@
 import { useAppStore } from "@/store/app";
 import { storeToRefs } from "pinia";
 
-const { loading, isAuthenticated, user_name } = storeToRefs(useAppStore());
+const { isAuthenticated, user_name } = storeToRefs(useAppStore());
 </script>
 
 <style scoped lang="scss">

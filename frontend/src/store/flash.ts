@@ -19,9 +19,8 @@ export const useFlashStore = defineStore("flash", {
       this.flash_value = true;
       this._flash_persistent = persistent;
     },
-    unsetMesage() {
+    unsetMessage() {
       this.flash_value = this._flash_persistent;
-      console.log(this.flash_value);
 
       this._flash_persistent = false;
     },

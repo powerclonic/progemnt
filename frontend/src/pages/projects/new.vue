@@ -53,6 +53,7 @@
         class="h-100"
         min-height="64px"
         :disabled="store.loading"
+        :loading="$app.loading"
       >
         Criar projeto
       </v-btn>

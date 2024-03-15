@@ -510,7 +510,6 @@ onMounted(() => {
     &__chips,
     &__text {
       max-width: 100%;
-      overflow: hidden scroll;
       height: calc(100% - 2rem - 10px);
       max-height: unset;
     }
@@ -527,6 +526,10 @@ onMounted(() => {
       overflow-y: scroll;
       height: calc(100% - 60px);
     }
+  }
+
+  .task-card {
+    margin-right: 10px;
   }
 
   .skeleton-container {
