@@ -3,6 +3,7 @@
     v-model="isActive"
     max-width="512"
     transition="dialog-bottom-transition"
+    :persistent="$app.loading"
   >
     <template #activator="{ props: activatorProps }">
       <slot name="activator" :props="activatorProps" />

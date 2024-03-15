@@ -47,7 +47,7 @@
       </v-form>
     </v-sheet>
   </v-dialog>
-  <v-container v-if="project" class="app-body">
+  <v-container v-if="project" fluid class="app-body">
     <div class="title">
       <p class="title__aux">Projeto</p>
       <h1 class="title__main">
@@ -154,37 +154,60 @@
           <v-icon icon="mdi-plus" color="primary" />
         </button>
       </div>
-      <div class="tasks__container">
-        <v-sheet-lighter
-          v-for="(task, index) in project.tasks"
-          :key="index"
-          class="task-card"
-        >
-          <div class="task-card__title">
-            <h3>{{ task.title }}</h3>
-            <p :id="'task_dialog_' + index">acessar ></p>
-            <task-details
-              :activator="'#task_dialog_' + index"
-              :task="task"
-              :members="project.users"
-              @update="(t: Ref<any>) => updateTask(t, index)"
-              @delete="() => deleteTask(index)"
-            />
-          </div>
-          <div class="task-card__footer">
-            <p v-if="task.responsible" class="task-card__responsible">
-              <v-icon icon="mdi-account" /> {{ task.responsible.name }}
-            </p>
-            <p v-else class="task-card__responsible">
-              <v-icon icon="mdi-account-cancel" /> Sem responsável
-            </p>
-            <v-chip
-              class="task-card__status"
-              v-bind="getStatusConfig(task.status)"
-            />
-          </div>
-        </v-sheet-lighter>
-      </div>
+      <v-virtual-scroll
+        v-if="project.tasks.length || addingTask"
+        :items="project.tasks"
+        class="tasks__container"
+        item-height="128"
+        height="100%"
+      >
+        <template #default="{ item: task }">
+          <task-details
+            :key="1"
+            :task
+            :members="project.users"
+            @update="(e) => updateTask(e, 1)"
+            @delete="(e) => deleteTask(1)"
+          >
+            <template #activator="{ props: taskDetailsProps }">
+              <v-card v-bind="taskDetailsProps" class="task-card" link>
+                <v-card-item class="pa-0">
+                  <v-card-title>
+                    {{ task.title }}
+                  </v-card-title>
+                  <v-card-subtitle>
+                    {{ task.description ?? "Sem descrição" }}
+                  </v-card-subtitle>
+                </v-card-item>
+                <v-card-text class="pa-0">
+                  <div class="task-card__footer">
+                    <p v-if="task.responsible" class="task-card__responsible">
+                      <v-icon icon="mdi-account" /> {{ task.responsible.name }}
+                    </p>
+                    <p v-else class="task-card__responsible">
+                      <v-icon icon="mdi-account-cancel" /> Sem responsável
+                    </p>
+                    <v-chip
+                      class="task-card__status"
+                      v-bind="getStatusConfig(task.status)"
+                    />
+                  </div>
+                </v-card-text>
+              </v-card>
+            </template>
+          </task-details>
+        </template>
+      </v-virtual-scroll>
+      <v-container
+        v-else
+        class="d-flex flex-column align-center pa-8 text-secondary"
+      >
+        <p class="mb-4">Oops!</p>
+        <v-btn-dark icon="mdi-exclamation-thick" size="large" />
+        <p class="text-center font-weight-bold mt-4">
+          Este projeto ainda não possui tarefas
+        </p>
+      </v-container>
     </v-sheet>
   </v-container>
   <v-container v-else class="skeleton-container">
@@ -223,6 +246,7 @@ const store = useAppStore();
 
 const project: Ref<Project | null> = ref(null);
 const newTaskDialog: Ref<boolean> = ref(false);
+const addingTask: Ref<boolean> = ref(false);
 
 //* Task v-models
 const taskModel: Ref<BareTask> = ref({} as BareTask);
@@ -293,6 +317,8 @@ const getData = async () => {
     const res = await showProject(route.params.id);
 
     project.value = res.data.data;
+
+    addingTask.value = false;
   } catch (error) {
     //
   }
@@ -302,6 +328,7 @@ const sendTaskForm = async () => {
   if (!project.value) return;
 
   try {
+    addingTask.value = true;
     await createTask(project.value.id, taskModel.value);
 
     taskModel.value = {
@@ -316,7 +343,7 @@ const sendTaskForm = async () => {
 
     getData();
   } catch (error) {
-    //
+    addingTask.value = false;
   }
 };
 
@@ -332,7 +359,7 @@ onMounted(() => {
   grid-template-rows: auto;
   gap: 10px;
 
-  min-height: 100%;
+  max-height: 100%;
 }
 
 .title {
@@ -421,23 +448,7 @@ onMounted(() => {
 .task-card {
   padding: 10px;
   background-color: rgb(var(--v-theme-secondary-darken-1));
-
-  &__title {
-    display: flex;
-    justify-content: space-between;
-
-    & > h3 {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    & > p {
-      white-space: nowrap;
-      margin-left: 10px;
-      color: rgb(var(--v-theme-secondary));
-    }
-  }
+  min-height: 128px;
 
   &__footer {
     display: flex;
@@ -488,6 +499,8 @@ onMounted(() => {
   .app-body {
     grid-template-columns: 40% 1fr;
     grid-template-rows: auto auto minmax(128px, 1fr) auto;
+
+    max-height: 100%;
   }
 
   .title {
@@ -517,14 +530,10 @@ onMounted(() => {
 
   .tasks {
     grid-area: 2 / 2 / 5 / 3;
-
-    &__title {
-      height: 50px;
-    }
+    max-height: 100%;
 
     &__container {
-      overflow-y: scroll;
-      height: calc(100% - 60px);
+      max-height: 100%;
     }
   }
 

@@ -94,12 +94,12 @@ export default createVuetify({
     VSheet: {
       rounded: true,
       color: "secondary-darken-2",
-      class: "pa-2",
+      class: "pa-3",
     },
     VSheetLighter: {
       rounded: true,
       color: "secondary-darken-1",
-      class: "pa-2",
+      class: "pa-3",
     },
   },
 });

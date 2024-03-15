@@ -4,7 +4,10 @@
       <h1 class="text-center app-body__title">Dashboard</h1>
       <v-sheet class="projects-container">
         <h2>Mais recentes</h2>
-        <div v-if="dashboardData" class="projects">
+        <div
+          v-if="dashboardData && hasData(dashboardData.last_opened)"
+          class="projects"
+        >
           <project-card-preview
             v-for="(project, index) in dashboardData.last_opened"
             :key="index"
@@ -12,9 +15,17 @@
             info="0 de 0 tarefas completadas"
           />
         </div>
-        <div v-else class="projects">
+        <div v-else-if="$app.loading" class="projects">
           <project-card-preview-loader v-for="i in 3" :key="i" />
         </div>
+        <v-container
+          v-else
+          class="d-flex flex-column justify-space-around align-center text-secondary-lighten-2"
+        >
+          <h3>Oops!</h3>
+          <v-btn-dark icon="mdi-exclamation-thick" size="large" />
+          <p class="empty-msg">Você ainda não abriu nenhum projeto</p>
+        </v-container>
       </v-sheet>
       <v-sheet class="projects-container projects-container--flex">
         <h2>Todos projetos</h2>
@@ -59,7 +70,10 @@
       </v-btn-dark>
       <v-sheet class="projects-container">
         <h2>Recém atualizados</h2>
-        <div v-if="dashboardData" class="projects">
+        <div
+          v-if="dashboardData && hasData(dashboardData.last_updated)"
+          class="projects"
+        >
           <project-card-preview
             v-for="(project, index) in dashboardData.last_updated"
             :key="index"
@@ -67,9 +81,17 @@
             :info="`atualizado em ${dateFormatter.format(new Date(project.updated_at))}`"
           />
         </div>
-        <div v-else class="projects">
+        <div v-else-if="$app.loading" class="projects">
           <project-card-preview-loader v-for="i in 3" :key="i" />
         </div>
+        <v-container
+          v-else
+          class="d-flex flex-column justify-space-around align-center text-secondary-lighten-2"
+        >
+          <h3>Oops!</h3>
+          <v-btn-dark icon="mdi-exclamation-thick" size="large" />
+          <p class="empty-msg">Você ainda não faz parte de nenhum projeto</p>
+        </v-container>
       </v-sheet>
       <v-sheet class="projects-container projects-container--flex">
         <h2>Estatísticas</h2>
@@ -112,6 +134,10 @@ const getDashboardData = async () => {
   }
 };
 
+const hasData = (v: object) => {
+  return v && Object.keys(v).length > 0;
+};
+
 onMounted(() => {
   getDashboardData();
 });
@@ -136,7 +162,10 @@ onMounted(() => {
 }
 
 .projects-container {
-  padding: 10px;
+  display: grid;
+
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
 
   &--flex {
     display: flex;
@@ -192,6 +221,10 @@ onMounted(() => {
     font-weight: 100;
     font-size: 0.8rem;
   }
+}
+.empty-msg {
+  font-size: 1.25rem;
+  text-align: center;
 }
 
 @media screen and (min-width: 768px) {

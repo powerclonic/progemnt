@@ -1,5 +1,8 @@
 <template>
-  <v-dialog v-model="dialog" :activator="activator" scrollable>
+  <v-dialog v-model="dialog">
+    <template #activator="{ props: activatorProps }">
+      <slot name="activator" :props="activatorProps" />
+    </template>
     <v-card>
       <v-sheet class="card">
         <v-form @submit.prevent="sendForm">
@@ -81,14 +84,11 @@ import { format } from "date-fns";
 import { ref } from "vue";
 
 const store = useAppStore();
+const flash = useFlashStore();
 
 const emits = defineEmits(["update", "delete"]);
 
 const props = defineProps({
-  activator: {
-    type: String,
-    required: true,
-  },
   task: {
     type: Object,
     required: true,
@@ -148,9 +148,11 @@ const sendForm = async () => {
   try {
     await updateTask(props.task.id, taskModel.value);
 
-    useFlashStore().setMessage("Tarefa atualizada", "success");
-    emits("update", taskModel);
     dialog.value = false;
+
+    flash.setMessage("Tarefa atualizada", "success");
+
+    emits("update", taskModel);
   } catch (error) {
     //
   }
@@ -162,6 +164,8 @@ const removeTask = async () => {
 
     dialog.value = false;
     confirmDialog.value = false;
+
+    flash.setMessage("Tarefa deletada", "success");
 
     emits("delete");
   } catch (error) {
