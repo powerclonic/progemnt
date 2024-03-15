@@ -10,17 +10,29 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (request) => {
-    useAppStore().loading = true;
+    try {
+      const store = useAppStore();
 
-    if (request.method != "post" && request.method != "get") {
-      request.data = { ...request.data, _method: request.method };
-      request.method = "post";
+      if (request.method != "post" && request.method != "get") {
+        request.data = { ...request.data, _method: request.method };
+        request.method = "post";
+      }
+
+      if (store.isAuthenticated)
+        request.headers.setAuthorization("Bearer " + store.access_token);
+
+      const controller = new AbortController();
+
+      request.signal = controller.signal;
+
+      if (store._controller) store._controller.abort();
+      store.loading = true;
+      store._controller = controller;
+
+      useFlashStore().unsetMessage();
+    } catch (e) {
+      console.error("e", e);
     }
-
-    if (useAppStore().isAuthenticated)
-      request.headers.setAuthorization("Bearer " + useAppStore().access_token);
-
-    useFlashStore().unsetMessage();
 
     return request;
   },
@@ -41,6 +53,8 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   (error: AxiosError) => {
+    if (error.message === "canceled") return;
+
     useAppStore().loading = false;
 
     if (!error.response) {

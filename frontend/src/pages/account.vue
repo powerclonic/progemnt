@@ -1,12 +1,12 @@
 <template>
   <v-container class="app-body">
-    <h1 class="text-center">Minha conta</h1>
     <v-form
       v-model="form"
       class="app-form"
       validate-on="input"
       @submit.prevent="updateUser"
     >
+      <h1 class="app-form__title">Minha conta</h1>
       <v-sheet class="app-card">
         <h2>Nome</h2>
         <v-text-field
@@ -67,10 +67,17 @@
           atualizar
         </v-btn>
       </v-sheet>
-      <v-btn flat block class="action-btn" @click="destroySession">
+      <v-btn
+        block
+        class="action-btn"
+        :disabled="$app.loading"
+        :loading="$app.loading"
+        size="xl"
+        @click="destroySession"
+      >
         encerrar sessão
       </v-btn>
-      <v-btn-darker block class="action-btn" disabled @click="deleteAccount">
+      <v-btn-darker class="action-btn" disabled @click="deleteAccount">
         deletar conta
       </v-btn-darker>
     </v-form>
@@ -176,13 +183,21 @@ onMounted(() => {
   display: grid;
   grid-row-gap: 20px;
 
+  &__title {
+    text-align: center;
+  }
+
   @media screen and (min-width: 600px) {
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(4, 0.5fr);
+    grid-template-rows: auto repeat(4, 1fr);
     grid-column-gap: 20px;
 
+    &__title {
+      grid-area: 1 / 1 / 2 / 3;
+    }
+
     & .div1 {
-      grid-area: 2 / 1 / 5 / 2;
+      grid-area: 3 / 1 / 6 / 2;
     }
 
     & .action-btn {

@@ -7,6 +7,7 @@ export const useAppStore = defineStore("app", {
     user_name: localStorage.getItem("user_name") ?? "",
     user_id: Number(localStorage.getItem("user_id")) ?? null,
     access_token: localStorage.getItem("access_token") ?? "",
+    _controller: null as AbortController | null,
   }),
   getters: {
     isAuthenticated(): boolean {
