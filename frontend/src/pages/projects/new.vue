@@ -1,11 +1,11 @@
 <template>
-  <h2 class="text-center">Novo projeto</h2>
   <v-container class="h-100 py-8">
     <v-form
       class="app-form"
       :disabled="store.loading"
       @submit.prevent="sendForm"
     >
+      <h2 class="app-form__title">Novo projeto</h2>
       <v-sheet class="input-card">
         <p class="input-card__label">Título</p>
         <v-text-field
@@ -47,11 +47,11 @@
         />
       </v-sheet>
       <v-btn
-        flat
         block
         size="xl"
-        class="h-100"
         type="submit"
+        class="h-100"
+        min-height="64px"
         :disabled="store.loading"
       >
         Criar projeto
@@ -115,8 +115,8 @@ const sendForm = async () => {
 <style scoped lang="scss">
 .app-form {
   display: grid;
-  grid-template-rows: repeat(3, auto);
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+  grid-template-columns: 1fr;
   gap: 20px;
 
   align-items: center;
@@ -124,8 +124,8 @@ const sendForm = async () => {
 
   height: 100%;
 
-  &__div1 {
-    grid-area: 2 / 1 / 3 / 3;
+  &__title {
+    text-align: center;
   }
 }
 .input-card {
@@ -134,6 +134,23 @@ const sendForm = async () => {
   &__label {
     font-size: 1.25rem;
     margin-bottom: 10px;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .app-form {
+    grid-template-rows: auto;
+    grid-template-columns: repeat(2, 1fr);
+
+    height: 100%;
+
+    &__title {
+      grid-area: 1 / 1 / 2 / 3;
+    }
+
+    &__div1 {
+      grid-area: 3 / 1 / 4 / 3;
+    }
   }
 }
 </style>
