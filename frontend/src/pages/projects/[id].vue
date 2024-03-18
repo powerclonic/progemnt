@@ -359,7 +359,7 @@ onMounted(() => {
   grid-template-rows: auto;
   gap: 10px;
 
-  max-height: 100%;
+  min-height: 100%;
 }
 
 .title {
@@ -449,6 +449,7 @@ onMounted(() => {
   padding: 10px;
   background-color: rgb(var(--v-theme-secondary-darken-1));
   min-height: 128px;
+  margin-bottom: 10px;
 
   &__footer {
     display: flex;
@@ -500,7 +501,8 @@ onMounted(() => {
     grid-template-columns: 40% 1fr;
     grid-template-rows: auto auto minmax(128px, 1fr) auto;
 
-    max-height: 100%;
+    max-height: calc(100vh - 68px - 80px);
+    overflow-y: scroll;
   }
 
   .title {
@@ -530,11 +532,9 @@ onMounted(() => {
 
   .tasks {
     grid-area: 2 / 2 / 5 / 3;
-    max-height: 100%;
 
-    &__container {
-      max-height: 100%;
-    }
+    display: grid;
+    grid-template-rows: 50px 1fr;
   }
 
   .task-card {

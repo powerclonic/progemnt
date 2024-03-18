@@ -180,7 +180,6 @@ onMounted(() => {
   display: flex;
   overflow-x: scroll;
   gap: 10px;
-  height: calc(100% - 36px);
   &__card {
     min-width: 250px;
     background-color: rgb(var(--v-theme-secondary-darken-1));
