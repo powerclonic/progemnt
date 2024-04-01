@@ -1,12 +1,78 @@
-version: "3"
+version: "3.8"
 
 services:
   php:
     build:
       context: "backend"
       dockerfile: "../.docker/php.dockerfile"
+    container_name: progemnt-php
+    depends_on:
+      - db-mongo
+      - db-mysql
+      - db-redis
+    networks:
+      - progemnt-network
+    ports:
+      - "8000:80"
     volumes:
       - "./backend:/var/www/html/"
       - "./.docker/config:/etc/apache2/sites-available/"
+
+  db-mysql:
+    container_name: progemnt-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: progemnt
+      MYSQL_PASSWORD: progemnt123
+      MYSQL_DATABASE: progemnt-db
+    image: mysql:8
+    networks:
+      - progemnt-network
     ports:
-      - "8000:80"
+      - "3306:3306"
+    volumes:
+      - "./db/mysql:/var/lib/mysql"
+
+  db-mongo:
+    container_name: progemnt-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: progemnt123
+      MONGO_INITDB_DATABASE: progemnt-db
+    image: mongo:7
+    networks:
+      - progemnt-network
+    ports:
+      - "27017:27017"
+    volumes:
+      - "./db/mongo:/data/db"
+
+  db-redis:
+    container_name: progemnt-redis
+    expose:
+      - 6379
+    image: redis:7
+    networks:
+      - progemnt-network
+    volumes:
+      - "./db/redis:/data"
+
+  vue:
+    container_name: progemnt-vue
+    build:
+      context: "frontend"
+      dockerfile: "../.docker/vue.dockerfile"
+    command: bash -c "npm install && npm run dev"
+    depends_on:
+      - php
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    volumes:
+      - "./frontend:/app"
+
+networks:
+  progemnt-network:
